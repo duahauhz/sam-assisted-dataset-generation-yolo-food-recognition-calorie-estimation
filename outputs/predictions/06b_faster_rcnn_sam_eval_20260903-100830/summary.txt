@@ -1,0 +1,25 @@
+======================================================================
+06b -- FASTER R-CNN + SAM1 (vit_b) E2E EVALUATION -- SUMMARY
+======================================================================
+Run timestamp      : 20260903-100830
+Model variant      : new
+Model weights      : E:\AI_Research\dlt8\models\faster_rcnn_new_best.pt
+SAM checkpoint     : E:\AI_Research\dlt8\models\sam\sam_vit_b_01ec64.pth
+Split              : test_final (928 stems)
+Confidence         : 0.05
+NMS IoU threshold  : 0.5
+Mask Backend       : SAM1 (vit_b box-prompt)
+Device             : 0
+
+Overall metrics:
+  mean_me_volume_pct   = 1.9570
+  mean_abs_me_volume_pct = 24.8716
+  mean_me_mass_pct     = -1.5704
+  n_classes            = 19
+
+Files written:
+  CSV    : E:\AI_Research\dlt8\outputs\predictions\06b_faster_rcnn_sam_eval_20260903-100830\samples_test_final_conf5_beta.csv
+  JSON   : E:\AI_Research\dlt8\outputs\predictions\06b_faster_rcnn_sam_eval_20260903-100830\report_test_final_conf5_beta.json
+  Betas  : E:\AI_Research\dlt8\outputs\predictions\06b_faster_rcnn_sam_eval_20260903-100830\betas_train_conf5.json
+  Log    : E:\AI_Research\dlt8\outputs\logs\06b_faster_rcnn_sam_eval_20260903-100830.log
+  Speed  : E:\AI_Research\dlt8\outputs\predictions\06b_faster_rcnn_sam_eval_20260903-100830\speed_per_image.json

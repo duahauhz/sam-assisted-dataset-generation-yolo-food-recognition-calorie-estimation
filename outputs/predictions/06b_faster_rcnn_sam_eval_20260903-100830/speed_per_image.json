@@ -1,0 +1,25 @@
+{
+  "config": {
+    "model_variant": "new",
+    "mask_backend": "sam",
+    "conf_threshold": 0.05,
+    "iou_threshold": 0.5,
+    "sam_model_type": "vit_b",
+    "device": "0"
+  },
+  "metric": "end_to_end_per_image_seconds",
+  "backend": "Faster R-CNN + SAM1 (vit_b)",
+  "n_images": 2088,
+  "total_seconds": 949.2666145993862,
+  "images_per_second": 2.199592788672113,
+  "mean": 0.45462960469319263,
+  "median": 0.44216610002331436,
+  "p90": 0.5013052999856882,
+  "p95": 0.5173739999881946,
+  "p99": 0.5934502999880351,
+  "min": 0.36607710004318506,
+  "max": 1.0611974999774247,
+  "stdev": 0.04543083721839432,
+  "avg_n_detections": 2.071360153256705,
+  "avg_n_mask_calls": 1.0502873563218391
+}

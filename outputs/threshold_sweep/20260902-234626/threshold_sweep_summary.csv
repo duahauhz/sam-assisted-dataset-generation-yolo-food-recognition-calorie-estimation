@@ -1,0 +1,5 @@
+Model Architecture,Optimal Conf ($th^*),Macro MAE (%),Coverage (%),Bias (%),Pairs Detected,Total Samples
+YOLOv8n-Seg,0.95,19.20%,94.7%,11.25%,6211/6557,6211
+YOLO26n-Seg,0.05,20.27%,100.0%,12.66%,6557/6557,6557
+Faster-RCNN+GrabCut,0.10,19.03%,100.0%,-12.33%,6557/6557,6557
+Faster-RCNN+SAM,0.05,19.24%,100.0%,-14.94%,6557/6557,6557

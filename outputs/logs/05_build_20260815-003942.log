@@ -1,0 +1,21 @@
+2026-08-15 00:39:42 [INFO] LOG_PATH = E:\AI_Research\dlt8\outputs\logs\05_build_20260815-003942.log
+2026-08-15 00:39:42 [INFO] ======================================================================
+2026-08-15 00:39:42 [INFO] === 05 -- BUILD FASTER R-CNN DATASET (new) ===
+2026-08-15 00:39:42 [INFO] ======================================================================
+2026-08-15 00:39:42 [INFO] PROJECT_ROOT = E:\AI_Research\dlt8
+2026-08-15 00:39:42 [INFO] RUN_DIR      = E:\AI_Research\dlt8\outputs\predictions\05_build_20260815-003942
+2026-08-15 00:39:42 [INFO] Variant arg  = new
+2026-08-15 00:39:42 [INFO] === Building variant 'new' ===
+2026-08-15 00:39:42 [INFO]   voc_to_yolo patched XML (data/processed/bbox_full/Annotations_patched) with fallback to raw — mirrors SAM pipeline
+2026-08-15 00:39:42 [INFO]   trainval.txt: 1245 stems
+2026-08-15 00:39:42 [INFO]   test.txt    : 1733 stems
+2026-08-15 00:39:42 [INFO]   Linking images into images/train/, images/test/
+2026-08-15 00:39:43 [INFO]   Building COCO JSON annotations
+2026-08-15 00:41:08 [INFO]   [trainval.txt] 1245 images, 2535 objects, 1245 imgs with objects, 2535 objects carry a SAM mask
+2026-08-15 00:43:20 [INFO]   [test.txt] 1733 images, 3523 objects, 1733 imgs with objects, 3523 objects carry a SAM mask
+2026-08-15 00:43:20 [INFO]   Wrote data\processed\faster_rcnn_seg\new\annotations\train.json
+2026-08-15 00:43:20 [INFO]   Wrote data\processed\faster_rcnn_seg\new\annotations\test.json
+2026-08-15 00:43:20 [INFO] Summary written: E:\AI_Research\dlt8\outputs\predictions\05_build_20260815-003942\summary.txt
+2026-08-15 00:43:20 [INFO] ======================================================================
+2026-08-15 00:43:20 [INFO] ✅ BUILD DONE
+2026-08-15 00:43:20 [INFO] ======================================================================

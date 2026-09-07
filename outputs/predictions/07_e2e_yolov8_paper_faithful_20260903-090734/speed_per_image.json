@@ -1,0 +1,24 @@
+{
+  "config": {
+    "model_variant": "yolov8_seg",
+    "conf_threshold": 0.3,
+    "iou_threshold": 0.5,
+    "imgsz": 480,
+    "device": "0"
+  },
+  "metric": "end_to_end_per_image_seconds",
+  "backend": "YOLOv8-seg (Instance Segmentation)",
+  "n_images": 2088,
+  "total_seconds": 40.48519829980796,
+  "images_per_second": 51.57440466359045,
+  "mean": 0.01938946278726435,
+  "median": 0.01783314999192953,
+  "p90": 0.024651700048707426,
+  "p95": 0.03196089999983087,
+  "p99": 0.03957829996943474,
+  "min": 0.01174180000089109,
+  "max": 0.13370239996584132,
+  "stdev": 0.006208801648686651,
+  "avg_n_detections": 2.2777777777777777,
+  "avg_n_mask_calls": 1.1532567049808429
+}

@@ -1,0 +1,27 @@
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+This work (the derived labels, masks, patched annotations, audit tables, and
+split files in this release) is licensed under the Creative Commons
+Attribution 4.0 International License.
+
+You are free to:
+  - Share: copy and redistribute the material in any medium or format
+  - Adapt: remix, transform, and build upon the material for any purpose,
+    even commercially
+
+Under the following terms:
+  - Attribution: you must give appropriate credit, provide a link to the
+    license, and indicate if changes were made.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+--------------------------------------------------------------------
+SCOPE NOTE
+
+This license applies ONLY to the derived annotation artifacts in this
+release. The ECUSTFD photographs themselves are NOT part of this release and
+remain subject to the terms of the original authors; obtain them from
+https://github.com/Liang-yc/ECUSTFD-resized- and cite the original paper:
+
+  Y. Liang and J. Li, "Computer vision-based food calorie estimation:
+  dataset, method, and experiment," arXiv preprint arXiv:1705.07632, 2017.

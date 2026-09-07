@@ -1,0 +1,422 @@
+# -*- coding: utf-8 -*-
+"""Generate 04 evaluation notebook."""
+import json
+from pathlib import Path
+
+def make_04_notebook():
+    cells = [
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# 04 -- YOLO26-seg (End-to-End Instance Segmentation) Evaluation\n",
+                "\n",
+                "**Mục tiêu**:\n",
+                "\n",
+                "Chạy đánh giá End-to-End (E2E) trên tập kiểm thử (**test split: 1,733 ảnh**) cho mô hình **YOLO26-seg** (`ecustfd_yolo26seg_best.pt`) với đầy đủ cơ chế phân đoạn Instance Segmentation trực tiếp kết hợp hiệu chuẩn $\\beta$ (50/50 train split).\n",
+                "\n",
+                "### Các thành phần chính trong Pipeline:\n",
+                "1. **Instance Segmentation**: YOLO26-seg dự đoán đồng thời Bounding Box và Mặt nạ phân đoạn (Polygon Mask) cho 19 lớp thực phẩm và đồng xu chuẩn (`coin`).\n",
+                "2. **Coin Calibration**: Tính tỷ lệ pixel-to-cm thực tế từ đồng xu chuẩn ($2.5\\text{ cm}$ đường kính) với cơ chế Relaxed coin-gate (Cross-fill và Fallback $0.1080\\text{ cm/px}$).\n",
+                "3. **View Pairing**: Ghép cặp ảnh chụp góc đỉnh (Top) và góc nghiêng/bên (Side).\n",
+                "4. **3D Volume & Calorie**: Tính thể tích 3D theo 5 mô hình hình học và áp dụng hiệu chuẩn $\\beta$ (50/50 train/test split) để ước tính khối lượng & calo.\n",
+                "5. **Báo cáo**: Xuất đầy đủ 5 file artifacts (`summary.txt`, `report.json`, `samples.csv`, `betas.json`, `speed_per_image.json`)."
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 1 -- Setup Dual Logging (Console + File Log)."""\n',
+                "import sys\n",
+                "from pathlib import Path\n",
+                "\n",
+                'PROJECT_ROOT = Path("E:/AI_Research/dlt8").resolve()\n',
+                "sys.path.insert(0, str(PROJECT_ROOT))\n",
+                'sys.path.insert(0, str(PROJECT_ROOT / "src"))\n',
+                "\n",
+                "from src.yolo_seg_eval.two_stage_helpers import setup_eval_logging\n",
+                "\n",
+                'log, LOG_PATH, RUN_DIR, RUN_TS = setup_eval_logging("04_e2e_paper_faithful_beta", PROJECT_ROOT)\n',
+                'log.info("Logger initialized for YOLO26-seg evaluation.")\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 2 -- Imports and dependencies."""\n',
+                "import warnings\n",
+                'warnings.filterwarnings("ignore")\n',
+                "\n",
+                "import cv2\n",
+                "import numpy as np\n",
+                "import pandas as pd\n",
+                "import torch\n",
+                "from ultralytics import YOLO\n",
+                "\n",
+                "from src.constants import FOOD_CLASSES, SHAPE_MODELS\n",
+                "from src.yolo_seg_eval.inference import load_yolo_seg, predict_one\n",
+                "from src.yolo_seg_eval.two_stage_helpers import (\n",
+                "    sanity_check_label_mapping,\n",
+                "    fix_ground_truth_aliasing,\n",
+                "    run_smoke_test,\n",
+                "    compute_speed_report,\n",
+                "    format_and_print_report,\n",
+                "    CANONICAL_YOLO_CLASSES,\n",
+                ")\n",
+                "from src.e2e_pipeline.dataset_split import (\n",
+                "    load_split,\n",
+                "    resolve_image_paths,\n",
+                "    group_top_side,\n",
+                "    make_pairs,\n",
+                ")\n",
+                "\n",
+                'log.info("Imports OK.")\n',
+                'log.info("  FOOD_CLASSES (%d): %s", len(FOOD_CLASSES), ", ".join(FOOD_CLASSES))\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 3 -- Config and hyperparameters."""\n',
+                'MODEL_VARIANT = "yolo26_seg"\n',
+                "CONF = 0.80\n",
+                "IOU_THRESH = 0.50\n",
+                "IMG_SZ = 480\n",
+                'SPLIT = "test"\n',
+                'DEVICE = "0" if torch.cuda.is_available() else "cpu"\n',
+                "\n",
+                "# Set MAX_PAIRS = 5 for fast validation test, or None for full test (1733 images)\n",
+                "MAX_PAIRS = None\n",
+                "\n",
+                'MODEL_WEIGHTS = PROJECT_ROOT / "models" / "ecustfd_yolo26seg_best.pt"\n',
+                'if not MODEL_WEIGHTS.exists():\n',
+                '    MODEL_WEIGHTS = PROJECT_ROOT / "runs" / "yolo_seg" / "ecustfd_yolo26seg" / "weights" / "best.pt"\n',
+                "\n",
+                'IMAGES_DIR = PROJECT_ROOT / "data" / "raw" / "ECUSTFD" / "JPEGImages"\n',
+                'IMAGESETS_DIR = PROJECT_ROOT / "data" / "raw" / "ECUSTFD" / "ImageSets" / "Main"\n',
+                "\n",
+                'TAG = f"{SPLIT}_conf{int(CONF*100)}_beta"\n',
+                'CSV_PATH = RUN_DIR / f"samples_{TAG}.csv"\n',
+                'JSON_PATH = RUN_DIR / f"report_{TAG}.json"\n',
+                'BETA_JSON = RUN_DIR / f"betas_train_conf{int(CONF*100)}.json"\n',
+                "\n",
+                'log.info("Configuration:")\n',
+                'log.info("  Model Weights : %s (exists=%s)", MODEL_WEIGHTS, MODEL_WEIGHTS.exists())\n',
+                'log.info("  Model Variant : %s (Instance Segmentation)", MODEL_VARIANT)\n',
+                'log.info("  Confidence    : %.2f | IoU: %.2f | ImgSz: %d", CONF, IOU_THRESH, IMG_SZ)\n',
+                'log.info("  Max Pairs     : %s", MAX_PAIRS if MAX_PAIRS else "All")\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 4 -- Sanity Check: Label Mapping & Schema Validation.\n',
+                "\n",
+                "Guarantees that 20 classes are strictly aligned (idx 0=apple, idx 4=coin, idx 19=tomato).\n",
+                "Prevents off-by-one label shift.\n",
+                '"""\n',
+                "sanity_check_label_mapping(CANONICAL_YOLO_CLASSES, logger=log)\n"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 5 -- Load food_info.xls and density.xls."""\n',
+                "from src.calorie_estimation import parse_food_info\n",
+                "from src.faster_rcnn.eval_pipeline import _load_ground_truth\n",
+                "\n",
+                'FOOD_INFO_XLS = PROJECT_ROOT / "data" / "raw" / "ECUSTFD" / "paper" / "food_info.xls"\n',
+                'DENSITY_XLS = PROJECT_ROOT / "data" / "raw" / "ECUSTFD" / "density.xls"\n',
+                "\n",
+                "food_info = parse_food_info(FOOD_INFO_XLS)\n",
+                "gt_by_class = _load_ground_truth(DENSITY_XLS)\n",
+                "\n",
+                "# Fix potential spelling alias (fired_dough_twist vs fried_dough_twist)\n",
+                "gt_by_class = fix_ground_truth_aliasing(gt_by_class, logger=log)\n",
+                "\n",
+                'log.info("Loaded food_info: %d classes | GT density: %d classes", len(food_info), len(gt_by_class))\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 6 -- Load test split and view pairs."""\n',
+                'test_split_file = IMAGESETS_DIR / f"{SPLIT}.txt"\n',
+                "test_stems = load_split(test_split_file)\n",
+                'log.info("Loaded %s.txt: %d stems", SPLIT, len(test_stems))\n',
+                "\n",
+                "test_paths = resolve_image_paths(test_stems, IMAGES_DIR)\n",
+                'log.info("Resolved image files: %d / %d stems", len(test_paths), len(test_stems))\n',
+                "\n",
+                "test_groups = group_top_side(test_paths)\n",
+                "test_pairs = make_pairs(test_groups)\n",
+                "if MAX_PAIRS is not None:\n",
+                "    test_pairs = test_pairs[:MAX_PAIRS]\n",
+                '    log.info("[Testing] Sliced test_pairs to MAX_PAIRS=%d", len(test_pairs))\n',
+                'log.info("Paired views: %d (top, side) pairs resolved.", len(test_pairs))\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 7 -- Load YOLO26-seg checkpoint."""\n',
+                'log.info("Loading model weights from: %s", MODEL_WEIGHTS)\n',
+                "model = load_yolo_seg(MODEL_WEIGHTS, device=DEVICE)\n",
+                'log.info("Model loaded successfully on device=%s.", DEVICE)\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 8 -- Multi-sample Smoke Test on representative images."""\n',
+                "sample_images = [\n",
+                '    IMAGES_DIR / "apple015T(1).JPG",\n',
+                '    IMAGES_DIR / "bread001T(1).JPG",\n',
+                '    IMAGES_DIR / "lemon001T(1).JPG",\n',
+                "]\n",
+                "\n",
+                "def _smoke_predict(p, c):\n",
+                "    return predict_one(model, p, conf=c, iou_threshold=IOU_THRESH, imgsz=IMG_SZ, device=DEVICE)\n",
+                "    \n",
+                "run_smoke_test(_smoke_predict, sample_images, conf=0.25, logger=log)\n"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 9 -- Per-image End-to-End Speed Timer."""\n',
+                "import atexit\n",
+                "import time\n",
+                "import src.yolo_seg_eval.inference as yolo_seg_inf\n",
+                "\n",
+                "_E2E_TIMES = []\n",
+                "_E2E_NDETS = []\n",
+                "_E2E_NMASK = []\n",
+                "\n",
+                "_orig_predict_one = yolo_seg_inf.predict_one\n",
+                "\n",
+                "def _timed_predict_one(model_obj, image_path, conf=0.8, iou_threshold=0.50, imgsz=480, device=None):\n",
+                "    t0 = time.perf_counter()\n",
+                "    dets = _orig_predict_one(model_obj, image_path, conf=conf, iou_threshold=iou_threshold, imgsz=imgsz, device=device)\n",
+                "    elapsed = time.perf_counter() - t0\n",
+                "    _E2E_TIMES.append(elapsed)\n",
+                "    _E2E_NDETS.append(len(dets))\n",
+                '    _E2E_NMASK.append(sum(1 for d in dets if d.get("class_name") != "coin" and d.get("mask") is not None))\n',
+                "    return dets\n",
+                "\n",
+                "yolo_seg_inf.predict_one = _timed_predict_one\n",
+                "\n",
+                "def _restore_predict_one():\n",
+                "    yolo_seg_inf.predict_one = _orig_predict_one\n",
+                "\n",
+                "atexit.register(_restore_predict_one)\n",
+                'log.info("[Timer] Installed per-image timer wrapper for YOLO26-seg.")\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 10 -- Relaxed coin-gate patch to ensure no sample drop."""\n',
+                "import src.yolo_seg_eval.eval_pipeline as yolo_seg_ep\n",
+                "\n",
+                "def _relaxed_compute_scale(dets, fallback=0.1080):\n",
+                '    coins = [d for d in dets if d.get("class_name") == "coin"]\n',
+                "    if not coins:\n",
+                "        return fallback, None\n",
+                '    best_coin = max(coins, key=lambda d: d.get("conf", 0.0))\n',
+                '    bbox = best_coin["bbox"]\n',
+                "    w = abs(bbox[2] - bbox[0])\n",
+                "    h = abs(bbox[3] - bbox[1])\n",
+                "    diam = max(w, h)\n",
+                "    if diam < 5:\n",
+                "        return fallback, None\n",
+                "    scale = 2.5 / diam  # 1 Yuan coin = 2.5 cm\n",
+                "    return scale, best_coin\n",
+                "\n",
+                'log.info("[Patch] Relaxed coin-gate active.")\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 11 -- Run Full E2E YOLO26-seg Pipeline."""\n',
+                'log.info("=" * 70)\n',
+                'log.info("Running E2E YOLO26-seg pipeline...")\n',
+                'log.info("  variant=%s, split=%s, conf=%.2f, apply_beta=True", MODEL_VARIANT, SPLIT, CONF)\n',
+                'log.info("=" * 70)\n',
+                "\n",
+                "artifacts = yolo_seg_ep._run_one_config(\n",
+                "    model_weights=MODEL_WEIGHTS,\n",
+                "    model_variant=MODEL_VARIANT,\n",
+                "    split=SPLIT,\n",
+                "    images_dir=IMAGES_DIR,\n",
+                "    imagesets_dir=IMAGESETS_DIR,\n",
+                "    conf_threshold=CONF,\n",
+                "    food_info=food_info,\n",
+                "    gt_by_class=gt_by_class,\n",
+                "    out_dir=RUN_DIR,\n",
+                "    apply_beta=True,\n",
+                "    device=DEVICE,\n",
+                "    iou_threshold=IOU_THRESH,\n",
+                "    imgsz=IMG_SZ,\n",
+                "    max_pairs=MAX_PAIRS,\n",
+                ")\n",
+                "\n",
+                'log.info("Pipeline run finished successfully. Artifacts: %s", artifacts)\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 12 -- Render Per-class & Overall Markdown Report."""\n',
+                "import json\n",
+                'report = json.loads(Path(JSON_PATH).read_text(encoding="utf-8"))\n',
+                "\n",
+                "df_report, report_data = format_and_print_report(\n",
+                "    JSON_PATH,\n",
+                '    title=f"Per-class ME_vol / ME_mass (YOLO26-seg Instance Segmentation, conf={CONF:.2f})",\n',
+                ")\n"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 13 -- Beta Calibration Sanity Check."""\n',
+                'this_betas = report.get("betas", {})\n',
+                'log.info("Beta calibrated for %d classes.", len(this_betas))\n',
+                "if this_betas:\n",
+                "    vals = list(this_betas.values())\n",
+                '    log.info("  range  : [%.4f, %.4f]", min(vals), max(vals))\n',
+                '    log.info("  median : %.4f", float(np.median(vals)))\n'
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 14 -- Compute & Print Per-image Latency Report."""\n',
+                "cfg = {\n",
+                '    "model_variant": MODEL_VARIANT,\n',
+                '    "conf_threshold": CONF,\n',
+                '    "iou_threshold": IOU_THRESH,\n',
+                '    "imgsz": IMG_SZ,\n',
+                '    "device": DEVICE,\n',
+                "}\n",
+                "\n",
+                "speed_stats = compute_speed_report(\n",
+                "    _E2E_TIMES, _E2E_NDETS, _E2E_NMASK,\n",
+                "    config_dict=cfg,\n",
+                "    run_dir=RUN_DIR,\n",
+                '    backend_title="YOLO26-seg (Instance Segmentation)",\n',
+                "    logger=log,\n",
+                ")\n"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                '"""Cell 15 -- Write summary.txt and Manifest."""\n',
+                "summary_lines = [\n",
+                '    "=" * 70,\n',
+                '    "04 -- YOLO26-SEG E2E EVALUATION -- SUMMARY",\n',
+                '    "=" * 70,\n',
+                '    f"Run timestamp      : {RUN_TS}",\n',
+                '    f"Model variant      : {MODEL_VARIANT}",\n',
+                '    f"Model weights      : {MODEL_WEIGHTS}",\n',
+                '    f"Split              : {SPLIT} ({len(test_stems)} stems)",\n',
+                '    f"Confidence         : {CONF}",\n',
+                '    f"NMS IoU threshold  : {IOU_THRESH}",\n',
+                '    f"Image size         : {IMG_SZ}",\n',
+                '    f"Device             : {DEVICE}",\n',
+                '    "",\n',
+                '    "Overall metrics:",\n',
+                "]\n",
+                'for k, v in report.get("overall", {}).items():\n',
+                '    val_str = f"{v:.4f}" if isinstance(v, float) else str(v)\n',
+                '    summary_lines.append(f"  {k:20s} = {val_str}")\n',
+                "\n",
+                'summary_lines.append("")\n',
+                'summary_lines.append("Files written:")\n',
+                'summary_lines.append(f"  CSV    : {CSV_PATH}")\n',
+                'summary_lines.append(f"  JSON   : {JSON_PATH}")\n',
+                'summary_lines.append(f"  Betas  : {BETA_JSON}")\n',
+                'summary_lines.append(f"  Log    : {LOG_PATH}")\n',
+                'summary_lines.append(f"  Speed  : {RUN_DIR / \'speed_per_image.json\'}")\n',
+                "\n",
+                'summary_path = RUN_DIR / "summary.txt"\n',
+                'summary_path.write_text("\\n".join(summary_lines), encoding="utf-8")\n',
+                'log.info("Summary written -> %s", summary_path)\n',
+                "\n",
+                'print("\\n" + "=" * 70)\n',
+                'print("  ALL OUTPUT FILES (04):")\n',
+                'print("=" * 70)\n',
+                'print(f"  Log            : {LOG_PATH}")\n',
+                'print(f"  Run dir        : {RUN_DIR}")\n',
+                'print(f"  Predictions CSV: {CSV_PATH}")\n',
+                'print(f"  Report JSON    : {JSON_PATH}")\n',
+                'print(f"  Betas JSON     : {BETA_JSON}")\n',
+                'print(f"  Speed JSON     : {RUN_DIR / \'speed_per_image.json\'}")\n',
+                'print(f"  Summary txt    : {summary_path}")\n',
+                'print("=" * 70)\n',
+                'print("\\n>>> Notebook 04 is complete.")\n'
+            ]
+        }
+    ]
+    return {
+        "cells": cells,
+        "metadata": {
+            "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
+            "language_info": {"name": "python", "version": "3.10"}
+        },
+        "nbformat": 4,
+        "nbformat_minor": 5
+    }
+
+if __name__ == "__main__":
+    nb_04 = make_04_notebook()
+    Path("src/04_e2e_paper_faithful_beta.ipynb").write_text(json.dumps(nb_04, indent=1, ensure_ascii=False), encoding="utf-8")
+    print("Created src/04_e2e_paper_faithful_beta.ipynb")

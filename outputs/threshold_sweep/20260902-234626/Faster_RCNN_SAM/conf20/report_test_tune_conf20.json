@@ -1,0 +1,149 @@
+{
+  "config": {
+    "model_variant": "new",
+    "model_weights": "E:\\AI_Research\\dlt8\\models\\faster_rcnn_new_best.pt",
+    "split": "test_tune",
+    "conf_threshold": 0.2,
+    "apply_beta": false,
+    "mask_backend": "sam",
+    "n_pairs": 6557,
+    "n_samples": 6557,
+    "detector": "faster_rcnn_sam",
+    "detector_collapsed": false
+  },
+  "betas": {},
+  "per_class": [
+    {
+      "class_name": "apple",
+      "n_samples": 934,
+      "me_volume_pct": -24.652360314515477,
+      "me_mass_pct": -30.349185938751273,
+      "abs_me_volume_pct": 25.168172486477005
+    },
+    {
+      "class_name": "banana",
+      "n_samples": 145,
+      "me_volume_pct": -25.753419970199086,
+      "me_mass_pct": -26.485403524354854,
+      "abs_me_volume_pct": 25.97476031869138
+    },
+    {
+      "class_name": "bread",
+      "n_samples": 17,
+      "me_volume_pct": -22.741095058639498,
+      "me_mass_pct": -12.50924424464514,
+      "abs_me_volume_pct": 28.81608751937793
+    },
+    {
+      "class_name": "bun",
+      "n_samples": 89,
+      "me_volume_pct": -13.886445505635203,
+      "me_mass_pct": -7.598438016682399,
+      "abs_me_volume_pct": 18.8337383250352
+    },
+    {
+      "class_name": "doughnut",
+      "n_samples": 549,
+      "me_volume_pct": -17.38157791582637,
+      "me_mass_pct": -27.06692626537342,
+      "abs_me_volume_pct": 20.88468030344775
+    },
+    {
+      "class_name": "egg",
+      "n_samples": 89,
+      "me_volume_pct": 6.633406578106069,
+      "me_mass_pct": -7.57753092991779,
+      "abs_me_volume_pct": 21.218682008158616
+    },
+    {
+      "class_name": "fried_dough_twist",
+      "n_samples": 181,
+      "me_volume_pct": -23.880244593945186,
+      "me_mass_pct": -25.440765368100536,
+      "abs_me_volume_pct": 25.513132349332718
+    },
+    {
+      "class_name": "lemon",
+      "n_samples": 676,
+      "me_volume_pct": -14.722972427102368,
+      "me_mass_pct": -16.03492669745464,
+      "abs_me_volume_pct": 18.8970973823682
+    },
+    {
+      "class_name": "litchi",
+      "n_samples": 64,
+      "me_volume_pct": 4.007950274960226,
+      "me_mass_pct": 0.9785924999613848,
+      "abs_me_volume_pct": 9.606399718392034
+    },
+    {
+      "class_name": "mango",
+      "n_samples": 365,
+      "me_volume_pct": -13.26150950578022,
+      "me_mass_pct": -20.954924631501026,
+      "abs_me_volume_pct": 19.758600362275036
+    },
+    {
+      "class_name": "mooncake",
+      "n_samples": 205,
+      "me_volume_pct": -6.131056397681762,
+      "me_mass_pct": -18.97604729650971,
+      "abs_me_volume_pct": 9.430253591088924
+    },
+    {
+      "class_name": "orange",
+      "n_samples": 749,
+      "me_volume_pct": -10.331092437017716,
+      "me_mass_pct": -11.41342249163941,
+      "abs_me_volume_pct": 12.752356139212088
+    },
+    {
+      "class_name": "peach",
+      "n_samples": 81,
+      "me_volume_pct": -15.42436050125859,
+      "me_mass_pct": -17.380318861544005,
+      "abs_me_volume_pct": 15.496859271944865
+    },
+    {
+      "class_name": "pear",
+      "n_samples": 481,
+      "me_volume_pct": -22.535946801060202,
+      "me_mass_pct": -17.53460463953199,
+      "abs_me_volume_pct": 22.610929390041186
+    },
+    {
+      "class_name": "plum",
+      "n_samples": 529,
+      "me_volume_pct": -19.32936206217675,
+      "me_mass_pct": -21.12551372971783,
+      "abs_me_volume_pct": 19.32936206217675
+    },
+    {
+      "class_name": "qiwi",
+      "n_samples": 144,
+      "me_volume_pct": -8.411010819778934,
+      "me_mass_pct": -16.384640466057007,
+      "abs_me_volume_pct": 10.166961565974407
+    },
+    {
+      "class_name": "sachima",
+      "n_samples": 169,
+      "me_volume_pct": -21.347054712314023,
+      "me_mass_pct": -16.465147763423168,
+      "abs_me_volume_pct": 21.846253938203176
+    },
+    {
+      "class_name": "tomato",
+      "n_samples": 1016,
+      "me_volume_pct": -19.790068950963505,
+      "me_mass_pct": -24.093176839860316,
+      "abs_me_volume_pct": 20.084343540822537
+    }
+  ],
+  "overall": {
+    "mean_me_volume_pct": -14.941012284490476,
+    "mean_abs_me_volume_pct": 19.243815015167765,
+    "mean_me_mass_pct": -17.578423622505728,
+    "n_classes": 18
+  }
+}

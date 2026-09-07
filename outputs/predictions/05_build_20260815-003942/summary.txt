@@ -1,0 +1,17 @@
+======================================================================
+05 -- BUILD FASTER R-CNN DATASET (new) -- SUMMARY
+======================================================================
+Run timestamp      : 20260815-003942
+PROJECT_ROOT       : E:\AI_Research\dlt8
+LOG_PATH           : E:\AI_Research\dlt8\outputs\logs\05_build_20260815-003942.log
+
+Variants built:
+  [new] voc_to_yolo patched XML (data/processed/bbox_full/Annotations_patched) with fallback to raw — mirrors SAM pipeline
+      train: 1245 images, 2535 objects
+      test : 1733 images, 3523 objects
+      train json: data\processed\faster_rcnn_seg\new\annotations\train.json
+      test  json: data\processed\faster_rcnn_seg\new\annotations\test.json
+
+Files written:
+  E:\AI_Research\dlt8\data\processed\faster_rcnn_seg\new
+  E:\AI_Research\dlt8\outputs\predictions\05_build_20260815-003942\summary.txt

@@ -1,0 +1,46 @@
+{
+  "YOLOv8n-Seg": {
+    "conf": 0.95,
+    "mae": 19.19689841527401,
+    "coverage": 94.72319658380357,
+    "mean_error": 11.252685539726416,
+    "n_samples": 6211,
+    "n_pairs_with_samples": 6211,
+    "total_pairs": 6557,
+    "selection_method": "Constrained (min MAE with Coverage >= 85.0%)",
+    "score": 79.46783669973887
+  },
+  "YOLO26n-Seg": {
+    "conf": 0.05,
+    "mae": 20.267859558056003,
+    "coverage": 100.0,
+    "mean_error": 12.659593759373859,
+    "n_samples": 6557,
+    "n_pairs_with_samples": 6557,
+    "total_pairs": 6557,
+    "selection_method": "Constrained (min MAE with Coverage >= 85.0%)",
+    "score": 83.14773403922412
+  },
+  "Faster-RCNN+GrabCut": {
+    "conf": 0.1,
+    "mae": 19.02904811549737,
+    "coverage": 100.0,
+    "mean_error": -12.330750666006573,
+    "n_samples": 6557,
+    "n_pairs_with_samples": 6557,
+    "total_pairs": 6557,
+    "selection_method": "Constrained (min MAE with Coverage >= 85.0%)",
+    "score": 84.01310569413869
+  },
+  "Faster-RCNN+SAM": {
+    "conf": 0.05,
+    "mae": 19.243815015167765,
+    "coverage": 100.0,
+    "mean_error": -14.941012284490476,
+    "n_samples": 6557,
+    "n_pairs_with_samples": 6557,
+    "total_pairs": 6557,
+    "selection_method": "Constrained (min MAE with Coverage >= 85.0%)",
+    "score": 83.86179189862388
+  }
+}

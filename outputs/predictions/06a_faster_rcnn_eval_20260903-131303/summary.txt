@@ -1,0 +1,24 @@
+======================================================================
+06a -- FASTER R-CNN + GRABCUT E2E EVALUATION -- SUMMARY
+======================================================================
+Run timestamp      : 20260903-131303
+Model variant      : new
+Model weights      : E:\AI_Research\dlt8\models\faster_rcnn_new_best.pt
+Split              : test_final (928 stems)
+Confidence         : 0.1
+NMS IoU threshold  : 0.5
+GrabCut iterations : 5
+Device             : 0
+
+Overall metrics:
+  mean_me_volume_pct   = 0.1307
+  mean_abs_me_volume_pct = 27.0551
+  mean_me_mass_pct     = -3.3499
+  n_classes            = 19
+
+Files written:
+  CSV    : E:\AI_Research\dlt8\outputs\predictions\06a_faster_rcnn_eval_20260903-131303\samples_test_final_conf10_beta.csv
+  JSON   : E:\AI_Research\dlt8\outputs\predictions\06a_faster_rcnn_eval_20260903-131303\report_test_final_conf10_beta.json
+  Betas  : E:\AI_Research\dlt8\outputs\predictions\06a_faster_rcnn_eval_20260903-131303\betas_train_conf10.json
+  Log    : E:\AI_Research\dlt8\outputs\logs\06a_faster_rcnn_eval_20260903-131303.log
+  Speed  : E:\AI_Research\dlt8\outputs\predictions\06a_faster_rcnn_eval_20260903-131303\speed_per_image.json

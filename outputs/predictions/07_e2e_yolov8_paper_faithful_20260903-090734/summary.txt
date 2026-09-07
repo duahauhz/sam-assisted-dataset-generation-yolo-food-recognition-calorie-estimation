@@ -1,0 +1,24 @@
+======================================================================
+07 -- YOLOV8-SEG E2E EVALUATION -- SUMMARY
+======================================================================
+Run timestamp      : 20260903-090734
+Model variant      : yolov8_seg
+Model weights      : E:\AI_Research\dlt8\models\ecustfd_yolov8seg_best.pt
+Split              : test_final (928 stems)
+Confidence         : 0.3
+NMS IoU threshold  : 0.5
+Image size         : 480
+Device             : 0
+
+Overall metrics:
+  mean_me_volume_pct   = 4.0355
+  mean_abs_me_volume_pct = 24.5409
+  mean_me_mass_pct     = 0.6773
+  n_classes            = 19
+
+Files written:
+  CSV    : E:\AI_Research\dlt8\outputs\predictions\07_e2e_yolov8_paper_faithful_20260903-090734\samples_test_final_conf30_beta.csv
+  JSON   : E:\AI_Research\dlt8\outputs\predictions\07_e2e_yolov8_paper_faithful_20260903-090734\report_test_final_conf30_beta.json
+  Betas  : E:\AI_Research\dlt8\outputs\predictions\07_e2e_yolov8_paper_faithful_20260903-090734\betas_train_conf30.json
+  Log    : E:\AI_Research\dlt8\outputs\logs\07_e2e_yolov8_paper_faithful_20260903-090734.log
+  Speed  : E:\AI_Research\dlt8\outputs\predictions\07_e2e_yolov8_paper_faithful_20260903-090734\speed_per_image.json

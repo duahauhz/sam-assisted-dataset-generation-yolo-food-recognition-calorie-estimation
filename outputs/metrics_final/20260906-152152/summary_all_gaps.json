@@ -1,0 +1,602 @@
+{
+  "gap2_mask_map50": {
+    "04": {
+      "mask_mAP50": 0.9408135198672556,
+      "mask_mAP50_95": 0.9115446474723847,
+      "box_mAP50": 0.9408135198672556,
+      "mask_ap50_per_class": {
+        "apple": 0.9063104101769329,
+        "banana": 0.9873364642305711,
+        "bread": 0.9413299663299664,
+        "bun": 0.9922727272727274,
+        "coin": 0.9797412350085575,
+        "doughnut": 0.98866428992776,
+        "egg": 0.9815454545454546,
+        "fired_dough_twist": 0.7933890103416038,
+        "grape": 0.9938888888888888,
+        "lemon": 0.9927781479013991,
+        "litchi": 0.995,
+        "mango": 0.8985462659929943,
+        "mooncake": 0.9797619047619046,
+        "orange": 0.960475862568212,
+        "peach": 0.861058619059115,
+        "pear": 0.6753497907356918,
+        "plum": 0.994591836734694,
+        "qiwi": 0.9779544567338972,
+        "sachima": 0.9901779139820935,
+        "tomato": 0.9260971521526455
+      }
+    },
+    "07": {
+      "mask_mAP50": 0.9714567169372532,
+      "mask_mAP50_95": 0.9399280562336301,
+      "box_mAP50": 0.9714567169372532,
+      "mask_ap50_per_class": {
+        "apple": 0.9825935015897365,
+        "banana": 0.9940107526881721,
+        "bread": 0.9892857142857143,
+        "bun": 0.995,
+        "coin": 0.9948922413793103,
+        "doughnut": 0.995,
+        "egg": 0.995,
+        "fired_dough_twist": 0.9912500000000001,
+        "grape": 0.995,
+        "lemon": 0.9882467532467532,
+        "litchi": 0.995,
+        "mango": 0.9704018254528861,
+        "mooncake": 0.995,
+        "orange": 0.9879629139131317,
+        "peach": 0.9712961210703577,
+        "pear": 0.6268333389344127,
+        "plum": 0.995,
+        "qiwi": 0.9775199063433189,
+        "sachima": 0.995,
+        "tomato": 0.9948412698412697
+      }
+    }
+  },
+  "gap1_mask_quality": {
+    "04": {
+      "n_eval": 923,
+      "n_no_pred": 5,
+      "n_empty_pred": 0,
+      "mean_iou_micro": 0.940426218851571,
+      "mean_iou_macro": 0.9375831323184804,
+      "mean_dice_micro": 0.9687183098591549,
+      "per_class": {
+        "apple": {
+          "n": 90,
+          "mean_iou": 0.96025,
+          "mean_dice": 0.9797055555555556
+        },
+        "banana": {
+          "n": 60,
+          "mean_iou": 0.93754,
+          "mean_dice": 0.967535
+        },
+        "bread": {
+          "n": 24,
+          "mean_iou": 0.9351208333333334,
+          "mean_dice": 0.9655374999999999
+        },
+        "bun": {
+          "n": 32,
+          "mean_iou": 0.95045,
+          "mean_dice": 0.9744
+        },
+        "doughnut": {
+          "n": 56,
+          "mean_iou": 0.9381946428571428,
+          "mean_dice": 0.9680196428571428
+        },
+        "egg": {
+          "n": 34,
+          "mean_iou": 0.9392941176470588,
+          "mean_dice": 0.9686676470588235
+        },
+        "fried_dough_twist": {
+          "n": 28,
+          "mean_iou": 0.8806607142857142,
+          "mean_dice": 0.93135
+        },
+        "grape": {
+          "n": 34,
+          "mean_iou": 0.9456294117647059,
+          "mean_dice": 0.9720000000000001
+        },
+        "lemon": {
+          "n": 60,
+          "mean_iou": 0.94701,
+          "mean_dice": 0.9727683333333333
+        },
+        "litchi": {
+          "n": 32,
+          "mean_iou": 0.9316875,
+          "mean_dice": 0.964553125
+        },
+        "mango": {
+          "n": 64,
+          "mean_iou": 0.9441265625,
+          "mean_dice": 0.971190625
+        },
+        "mix": {
+          "n": 32,
+          "mean_iou": 0.94694375,
+          "mean_dice": 0.972496875
+        },
+        "mooncake": {
+          "n": 30,
+          "mean_iou": 0.9192633333333333,
+          "mean_dice": 0.9574366666666666
+        },
+        "orange": {
+          "n": 46,
+          "mean_iou": 0.9451630434782609,
+          "mean_dice": 0.9708500000000001
+        },
+        "peach": {
+          "n": 59,
+          "mean_iou": 0.9470864406779662,
+          "mean_dice": 0.9727610169491525
+        },
+        "pear": {
+          "n": 29,
+          "mean_iou": 0.9161275862068965,
+          "mean_dice": 0.9527413793103449
+        },
+        "plum": {
+          "n": 48,
+          "mean_iou": 0.9441333333333333,
+          "mean_dice": 0.9712229166666667
+        },
+        "qiwi": {
+          "n": 41,
+          "mean_iou": 0.9417756097560975,
+          "mean_dice": 0.9680585365853658
+        },
+        "sachima": {
+          "n": 70,
+          "mean_iou": 0.9261242857142857,
+          "mean_dice": 0.9614228571428571
+        },
+        "tomato": {
+          "n": 54,
+          "mean_iou": 0.9550814814814814,
+          "mean_dice": 0.9769796296296297
+        }
+      }
+    },
+    "07": {
+      "n_eval": 924,
+      "n_no_pred": 4,
+      "n_empty_pred": 0,
+      "mean_iou_micro": 0.9423128787878787,
+      "mean_iou_macro": 0.9403633643197121,
+      "mean_dice_micro": 0.9699104978354979,
+      "per_class": {
+        "apple": {
+          "n": 90,
+          "mean_iou": 0.96038,
+          "mean_dice": 0.9797622222222222
+        },
+        "banana": {
+          "n": 60,
+          "mean_iou": 0.92924,
+          "mean_dice": 0.9625199999999999
+        },
+        "bread": {
+          "n": 23,
+          "mean_iou": 0.9329782608695653,
+          "mean_dice": 0.9643391304347826
+        },
+        "bun": {
+          "n": 32,
+          "mean_iou": 0.95536875,
+          "mean_dice": 0.977040625
+        },
+        "doughnut": {
+          "n": 56,
+          "mean_iou": 0.9387535714285714,
+          "mean_dice": 0.9683196428571429
+        },
+        "egg": {
+          "n": 34,
+          "mean_iou": 0.9418029411764705,
+          "mean_dice": 0.9700088235294118
+        },
+        "fried_dough_twist": {
+          "n": 27,
+          "mean_iou": 0.9020740740740741,
+          "mean_dice": 0.9479074074074073
+        },
+        "grape": {
+          "n": 34,
+          "mean_iou": 0.9486088235294117,
+          "mean_dice": 0.9735941176470589
+        },
+        "lemon": {
+          "n": 60,
+          "mean_iou": 0.9474966666666667,
+          "mean_dice": 0.9730233333333334
+        },
+        "litchi": {
+          "n": 32,
+          "mean_iou": 0.930925,
+          "mean_dice": 0.9641968750000001
+        },
+        "mango": {
+          "n": 64,
+          "mean_iou": 0.94463125,
+          "mean_dice": 0.9714734375
+        },
+        "mix": {
+          "n": 32,
+          "mean_iou": 0.95411875,
+          "mean_dice": 0.976503125
+        },
+        "mooncake": {
+          "n": 30,
+          "mean_iou": 0.91925,
+          "mean_dice": 0.9573333333333333
+        },
+        "orange": {
+          "n": 46,
+          "mean_iou": 0.9430913043478261,
+          "mean_dice": 0.9692652173913043
+        },
+        "peach": {
+          "n": 60,
+          "mean_iou": 0.9475650000000001,
+          "mean_dice": 0.9730066666666667
+        },
+        "pear": {
+          "n": 31,
+          "mean_iou": 0.928825806451613,
+          "mean_dice": 0.9597096774193548
+        },
+        "plum": {
+          "n": 48,
+          "mean_iou": 0.94231875,
+          "mean_dice": 0.9702500000000001
+        },
+        "qiwi": {
+          "n": 41,
+          "mean_iou": 0.9543146341463414,
+          "mean_dice": 0.9765878048780489
+        },
+        "sachima": {
+          "n": 70,
+          "mean_iou": 0.9291699999999999,
+          "mean_dice": 0.963132857142857
+        },
+        "tomato": {
+          "n": 54,
+          "mean_iou": 0.9563537037037037,
+          "mean_dice": 0.9776555555555555
+        }
+      }
+    },
+    "06a": {
+      "n_eval": 927,
+      "n_no_pred": 1,
+      "n_empty_pred": 0,
+      "mean_iou_micro": 0.9250474649406688,
+      "mean_iou_macro": 0.9244152001997298,
+      "mean_dice_micro": 0.9578317152103559,
+      "per_class": {
+        "apple": {
+          "n": 90,
+          "mean_iou": 0.9305922222222222,
+          "mean_dice": 0.9576
+        },
+        "banana": {
+          "n": 60,
+          "mean_iou": 0.77882,
+          "mean_dice": 0.865055
+        },
+        "bread": {
+          "n": 24,
+          "mean_iou": 0.9109541666666666,
+          "mean_dice": 0.9515625
+        },
+        "bun": {
+          "n": 32,
+          "mean_iou": 0.92429375,
+          "mean_dice": 0.955109375
+        },
+        "doughnut": {
+          "n": 56,
+          "mean_iou": 0.9499160714285715,
+          "mean_dice": 0.9740535714285714
+        },
+        "egg": {
+          "n": 34,
+          "mean_iou": 0.9555794117647058,
+          "mean_dice": 0.9770911764705882
+        },
+        "fried_dough_twist": {
+          "n": 28,
+          "mean_iou": 0.8550142857142857,
+          "mean_dice": 0.9150142857142857
+        },
+        "grape": {
+          "n": 34,
+          "mean_iou": 0.880864705882353,
+          "mean_dice": 0.9331029411764706
+        },
+        "lemon": {
+          "n": 60,
+          "mean_iou": 0.95731,
+          "mean_dice": 0.9780883333333333
+        },
+        "litchi": {
+          "n": 32,
+          "mean_iou": 0.940934375,
+          "mean_dice": 0.9692500000000001
+        },
+        "mango": {
+          "n": 64,
+          "mean_iou": 0.9556203125,
+          "mean_dice": 0.9771515625
+        },
+        "mix": {
+          "n": 32,
+          "mean_iou": 0.960940625,
+          "mean_dice": 0.979996875
+        },
+        "mooncake": {
+          "n": 30,
+          "mean_iou": 0.9472133333333334,
+          "mean_dice": 0.9727533333333334
+        },
+        "orange": {
+          "n": 46,
+          "mean_iou": 0.9437695652173914,
+          "mean_dice": 0.9674304347826087
+        },
+        "peach": {
+          "n": 60,
+          "mean_iou": 0.9662833333333333,
+          "mean_dice": 0.9827066666666667
+        },
+        "pear": {
+          "n": 32,
+          "mean_iou": 0.901553125,
+          "mean_dice": 0.94054375
+        },
+        "plum": {
+          "n": 48,
+          "mean_iou": 0.9394291666666666,
+          "mean_dice": 0.96848125
+        },
+        "qiwi": {
+          "n": 41,
+          "mean_iou": 0.9349243902439024,
+          "mean_dice": 0.9630975609756098
+        },
+        "sachima": {
+          "n": 70,
+          "mean_iou": 0.8968985714285714,
+          "mean_dice": 0.9453128571428571
+        },
+        "tomato": {
+          "n": 54,
+          "mean_iou": 0.9573925925925926,
+          "mean_dice": 0.9781222222222221
+        }
+      }
+    },
+    "06b": {
+      "n_eval": 927,
+      "n_no_pred": 1,
+      "n_empty_pred": 0,
+      "mean_iou_micro": 0.9750425026968716,
+      "mean_iou_macro": 0.9749627447424585,
+      "mean_dice_micro": 0.9861069039913699,
+      "per_class": {
+        "apple": {
+          "n": 90,
+          "mean_iou": 0.9679411111111111,
+          "mean_dice": 0.97992
+        },
+        "banana": {
+          "n": 60,
+          "mean_iou": 0.9477933333333334,
+          "mean_dice": 0.97097
+        },
+        "bread": {
+          "n": 24,
+          "mean_iou": 0.9881291666666666,
+          "mean_dice": 0.9939541666666667
+        },
+        "bun": {
+          "n": 32,
+          "mean_iou": 0.95145625,
+          "mean_dice": 0.969728125
+        },
+        "doughnut": {
+          "n": 56,
+          "mean_iou": 0.9914982142857143,
+          "mean_dice": 0.9957214285714285
+        },
+        "egg": {
+          "n": 34,
+          "mean_iou": 0.9861235294117646,
+          "mean_dice": 0.9929823529411765
+        },
+        "fried_dough_twist": {
+          "n": 28,
+          "mean_iou": 0.9451928571428571,
+          "mean_dice": 0.96765
+        },
+        "grape": {
+          "n": 34,
+          "mean_iou": 0.9906499999999999,
+          "mean_dice": 0.9952764705882352
+        },
+        "lemon": {
+          "n": 60,
+          "mean_iou": 0.9846883333333333,
+          "mean_dice": 0.99225
+        },
+        "litchi": {
+          "n": 32,
+          "mean_iou": 0.99385625,
+          "mean_dice": 0.996909375
+        },
+        "mango": {
+          "n": 64,
+          "mean_iou": 0.9883140625,
+          "mean_dice": 0.994109375
+        },
+        "mix": {
+          "n": 32,
+          "mean_iou": 0.987525,
+          "mean_dice": 0.99371875
+        },
+        "mooncake": {
+          "n": 30,
+          "mean_iou": 0.9885466666666667,
+          "mean_dice": 0.9941933333333334
+        },
+        "orange": {
+          "n": 46,
+          "mean_iou": 0.9484369565217392,
+          "mean_dice": 0.9707934782608696
+        },
+        "peach": {
+          "n": 60,
+          "mean_iou": 0.993515,
+          "mean_dice": 0.99673
+        },
+        "pear": {
+          "n": 32,
+          "mean_iou": 0.922634375,
+          "mean_dice": 0.95495
+        },
+        "plum": {
+          "n": 48,
+          "mean_iou": 0.9908,
+          "mean_dice": 0.9953666666666666
+        },
+        "qiwi": {
+          "n": 41,
+          "mean_iou": 0.9857902439024391,
+          "mean_dice": 0.9925853658536585
+        },
+        "sachima": {
+          "n": 70,
+          "mean_iou": 0.9552542857142857,
+          "mean_dice": 0.9770614285714286
+        },
+        "tomato": {
+          "n": 54,
+          "mean_iou": 0.9911092592592593,
+          "mean_dice": 0.9955185185185186
+        }
+      }
+    }
+  },
+  "gap3_wilcoxon": {
+    "n_items": 41,
+    "n_pairs": 6334,
+    "mean_abs_rel_err": {
+      "04": 0.2169258549200342,
+      "06a": 0.24859646088329257,
+      "06b": 0.23579719531789128,
+      "07": 0.21153925675254848
+    },
+    "note": "item-level is the reportable test (pairs are clustered within items); pair_level is reference only (pseudo-replicated)",
+    "04_vs_06a": {
+      "item_level": {
+        "n": 41,
+        "mean_err_a": 0.2766709675312201,
+        "mean_err_b": 0.28007582645609647,
+        "p_value": 0.4962226413526878,
+        "W": 377.0,
+        "a_better_items": 24,
+        "b_better_items": 17,
+        "tie_items": 0
+      },
+      "pair_level_reference_only": {
+        "n": 6334,
+        "p_value": 6.857187637624887e-101,
+        "a_better": 3935,
+        "b_better": 2399
+      }
+    },
+    "04_vs_06b": {
+      "item_level": {
+        "n": 41,
+        "mean_err_a": 0.2766709675312201,
+        "mean_err_b": 0.26167536376664113,
+        "p_value": 1.0,
+        "W": 430.0,
+        "a_better_items": 23,
+        "b_better_items": 18,
+        "tie_items": 0
+      },
+      "pair_level_reference_only": {
+        "n": 6334,
+        "p_value": 2.3217596020246325e-88,
+        "a_better": 3836,
+        "b_better": 2498
+      }
+    },
+    "04_vs_07": {
+      "item_level": {
+        "n": 41,
+        "mean_err_a": 0.2766709675312201,
+        "mean_err_b": 0.2635632727990414,
+        "p_value": 0.44858183588075917,
+        "W": 371.0,
+        "a_better_items": 20,
+        "b_better_items": 21,
+        "tie_items": 0
+      },
+      "pair_level_reference_only": {
+        "n": 6334,
+        "p_value": 0.01429530655574712,
+        "a_better": 3205,
+        "b_better": 3129
+      }
+    }
+  },
+  "gap5_kcal": {
+    "definition": "kcal_true = (q_gt / density_gt) * gt_mass; kcal_pred = (q_pred / density_pred) * mass_g; q from food_info.xls (paper Table 1), with predicted-class parameters for accepted predictions",
+    "per_model": {
+      "04": {
+        "n_eval": 6334,
+        "mae_kcal": 41.60466603260838,
+        "rmse_kcal": 107.97423518119481,
+        "me_kcal": -13.316700098446928,
+        "n_misclassified_accepted": 158,
+        "n_skipped": 0
+      },
+      "06a": {
+        "n_eval": 6334,
+        "mae_kcal": 65.00829658181846,
+        "rmse_kcal": 249.84694883041527,
+        "me_kcal": -38.55439513491646,
+        "n_misclassified_accepted": 379,
+        "n_skipped": 0
+      },
+      "06b": {
+        "n_eval": 6334,
+        "mae_kcal": 63.56897543843644,
+        "rmse_kcal": 249.80679387262063,
+        "me_kcal": -39.42276579144135,
+        "n_misclassified_accepted": 378,
+        "n_skipped": 0
+      },
+      "07": {
+        "n_eval": 6334,
+        "mae_kcal": 40.28777545569736,
+        "rmse_kcal": 99.70983824590937,
+        "me_kcal": -13.373339760478848,
+        "n_misclassified_accepted": 218,
+        "n_skipped": 0
+      }
+    }
+  }
+}

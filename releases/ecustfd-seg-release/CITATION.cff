@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: "ECUSTFD-Seg: an instance-segmentation annotation layer for the ECUSTFD food-calorie benchmark"
+message: "If you use this annotation layer, please cite this work and the original ECUSTFD paper."
+type: dataset
+authors:
+  - family-names: "(author list per final paper submission)"
+repository-code: "https://github.com/<user>/ecustfd-seg"
+identifiers:
+  - type: other
+    value: "2,978 images / 6,062 instances / 20 classes (19 foods + reference coin)"
+keywords:
+  - food segmentation
+  - instance segmentation
+  - SAM
+  - dietary assessment
+  - ECUSTFD
+license: CC-BY-4.0
+related-identifiers:
+  - type: other
+    relation: documents
+    title: "Y. Liang and J. Li, Computer vision-based food calorie estimation: dataset, method, and experiment, arXiv:1705.07632, 2017 (cite this too if you use ECUSTFD images)"

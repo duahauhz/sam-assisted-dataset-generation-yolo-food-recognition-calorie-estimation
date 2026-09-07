@@ -1,0 +1,16 @@
+{
+  "variants": [
+    {
+      "variant": "new",
+      "out_dir": "data\\processed\\faster_rcnn_seg\\new",
+      "n_train_images": 1245,
+      "n_train_objects": 2535,
+      "n_test_images": 1733,
+      "n_test_objects": 3523,
+      "n_classes": 20,
+      "train_json": "data\\processed\\faster_rcnn_seg\\new\\annotations\\train.json",
+      "test_json": "data\\processed\\faster_rcnn_seg\\new\\annotations\\test.json"
+    }
+  ],
+  "run_dir": "E:\\AI_Research\\dlt8\\outputs\\predictions\\05_build_20260815-003942"
+}

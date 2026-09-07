@@ -1,0 +1,155 @@
+[2026-08-01 20:35:27] === fetch_data.ipynb started ===
+[2026-08-01 20:35:27] PROJECT_ROOT   = E:\AI_Research\dlt8
+[2026-08-01 20:35:27] ECUSTFD_DIR    = E:\AI_Research\dlt8\data\raw\ECUSTFD
+[2026-08-01 20:35:27] BASELINE_DIR   = E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+[2026-08-01 20:35:27] LOGS_ROOT      = E:\AI_Research\dlt8\logs
+[2026-08-01 20:35:27] git available  = C:\Program Files\Git\cmd\git.EXE
+[2026-08-01 20:35:27] $ git --version  (cwd=E:\AI_Research\dlt8\src)
+[2026-08-01 20:35:27] -> exit code 0
+[2026-08-01 20:35:27] PARENT_GIT_INIT=False → skipping root git init.
+[2026-08-01 20:35:27] Existing ECUSTFD layout looks complete? False
+[2026-08-01 20:35:27] Cloning ECUSTFD-resized- → data/raw/ECUSTFD ...
+[2026-08-01 20:35:27] $ git clone --depth 1 https://github.com/Liang-yc/ECUSTFD-resized-.git E:\AI_Research\dlt8\data\raw\_tmp_ECUSTFD_clone  (cwd=E:\AI_Research\dlt8\src)
+[2026-08-01 20:37:44] -> exit code 0
+[2026-08-01 20:40:17] === fetch_data.ipynb started ===
+[2026-08-01 20:40:17] PROJECT_ROOT   = E:\AI_Research\dlt8
+[2026-08-01 20:40:17] ECUSTFD_DIR    = E:\AI_Research\dlt8\data\raw\ECUSTFD
+[2026-08-01 20:40:17] BASELINE_DIR   = E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+[2026-08-01 20:40:17] LOGS_ROOT      = E:\AI_Research\dlt8\logs
+[2026-08-01 20:40:17] git available  = C:\Program Files\Git\cmd\git.EXE
+[2026-08-01 20:40:17] $ git --version  (cwd=E:\AI_Research\dlt8\src)
+[2026-08-01 20:40:17] -> exit code 0
+[2026-08-01 20:40:17] PARENT_GIT_INIT=False → skipping root git init.
+[2026-08-01 20:40:17] Existing ECUSTFD layout looks complete? False
+[2026-08-01 20:40:17] Cloning ECUSTFD-resized- → data/raw/ECUSTFD ...
+[2026-08-01 20:40:17] $ git clone --depth 1 https://github.com/Liang-yc/ECUSTFD-resized-.git E:\AI_Research\dlt8\data\raw\_tmp_ECUSTFD_clone  (cwd=E:\AI_Research\dlt8\src)
+[2026-08-01 20:42:00] -> exit code 0
+[2026-08-01 20:42:00] EcustFD moved into E:\AI_Research\dlt8\data\raw\ECUSTFD
+[2026-08-01 20:42:00] ECUSTFD layout verified OK.
+[2026-08-01 20:42:00] Existing faster_rcnn layout looks complete? False
+[2026-08-01 20:42:00] Cloning Liang-yc/CalorieEstimation → ECUSTFD/faster_rcnn ...
+[2026-08-01 20:42:00] $ git clone --depth 1 https://github.com/Liang-yc/CalorieEstimation.git E:\AI_Research\dlt8\ECUSTFD\_tmp_faster_rcnn_clone  (cwd=E:\AI_Research\dlt8\src)
+[2026-08-01 20:42:16] -> exit code 0
+[2026-08-01 20:42:16] CalorieEstimation moved into E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+[2026-08-01 20:42:16] Faster R-CNN baseline layout verified OK.
+[2026-08-01 20:42:16] Verification report saved to E:\AI_Research\dlt8\logs\verify_data.log
+[2026-08-01 20:42:16] density.xls OK (19 foods ≥ 19).
+[2026-08-01 20:42:16] === Data fetch complete ===
+
+ECUSTFD dataset    : E:\AI_Research\dlt8\data\raw\ECUSTFD
+                     ↑ from https://github.com/Liang-yc/ECUSTFD-resized-.git
+                     files: 5991
+                     jpgs : 2978
+                     xmls : 2978
+
+Faster R-CNN ref   : E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+                     ↑ from https://github.com/Liang-yc/CalorieEstimation.git
+                     files: 344
+                     .m   : 111
+
+Logs written to:
+  E:\AI_Research\dlt8\logs\fetch_data.log
+  E:\AI_Research\dlt8\logs\git_clone.log
+  E:\AI_Research\dlt8\logs\verify_data.log
+[2026-08-01 20:43:17] === fetch_data.ipynb started ===
+[2026-08-01 20:43:17] PROJECT_ROOT   = E:\AI_Research\dlt8
+[2026-08-01 20:43:17] ECUSTFD_DIR    = E:\AI_Research\dlt8\data\raw\ECUSTFD
+[2026-08-01 20:43:17] BASELINE_DIR   = E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+[2026-08-01 20:43:17] LOGS_ROOT      = E:\AI_Research\dlt8\logs
+[2026-08-01 20:43:17] git available  = C:\Program Files\Git\cmd\git.EXE
+[2026-08-01 20:43:17] $ git --version  (cwd=E:\AI_Research\dlt8\src)
+[2026-08-01 20:43:18] -> exit code 0
+[2026-08-01 20:43:18] PARENT_GIT_INIT=False → skipping root git init.
+[2026-08-01 20:43:18] Existing ECUSTFD layout looks complete? True
+[2026-08-01 20:43:18] ECUSTFD already populated — skipping clone.
+[2026-08-01 20:43:18] ECUSTFD layout verified OK.
+[2026-08-01 20:43:18] Existing faster_rcnn layout looks complete? True
+[2026-08-01 20:43:18] faster_rcnn baseline already populated — skipping clone.
+[2026-08-01 20:43:18] Faster R-CNN baseline layout verified OK.
+[2026-08-01 20:43:18] Verification report saved to E:\AI_Research\dlt8\logs\verify_data.log
+[2026-08-01 20:43:18] density.xls OK (19 foods ≥ 19).
+[2026-08-01 20:43:18] === Data fetch complete ===
+
+ECUSTFD dataset    : E:\AI_Research\dlt8\data\raw\ECUSTFD
+                     ↑ from https://github.com/Liang-yc/ECUSTFD-resized-.git
+                     files: 5991
+                     jpgs : 2978
+                     xmls : 2978
+
+Faster R-CNN ref   : E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+                     ↑ from https://github.com/Liang-yc/CalorieEstimation.git
+                     files: 344
+                     .m   : 111
+
+Logs written to:
+  E:\AI_Research\dlt8\logs\fetch_data.log
+  E:\AI_Research\dlt8\logs\git_clone.log
+  E:\AI_Research\dlt8\logs\verify_data.log
+[2026-08-01 20:44:01] === fetch_data.ipynb started ===
+[2026-08-01 20:44:01] PROJECT_ROOT   = E:\AI_Research\dlt8
+[2026-08-01 20:44:01] ECUSTFD_DIR    = E:\AI_Research\dlt8\data\raw\ECUSTFD
+[2026-08-01 20:44:01] BASELINE_DIR   = E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+[2026-08-01 20:44:01] LOGS_ROOT      = E:\AI_Research\dlt8\logs
+[2026-08-01 20:44:01] git available  = C:\Program Files\Git\cmd\git.EXE
+[2026-08-01 20:44:01] $ git --version  (cwd=E:\AI_Research\dlt8\src)
+[2026-08-01 20:44:01] -> exit code 0
+[2026-08-01 20:44:01] PARENT_GIT_INIT=False → skipping root git init.
+[2026-08-01 20:44:01] Existing ECUSTFD layout looks complete? True
+[2026-08-01 20:44:01] ECUSTFD already populated — skipping clone.
+[2026-08-01 20:44:01] ECUSTFD layout verified OK.
+[2026-08-01 20:44:01] Existing faster_rcnn layout looks complete? True
+[2026-08-01 20:44:01] faster_rcnn baseline already populated — skipping clone.
+[2026-08-01 20:44:01] Faster R-CNN baseline layout verified OK.
+[2026-08-01 20:44:01] Verification report saved to E:\AI_Research\dlt8\logs\verify_data.log
+[2026-08-01 20:44:01] density.xls OK (19 foods ≥ 19).
+[2026-08-01 20:44:01] === Data fetch complete ===
+
+ECUSTFD dataset    : E:\AI_Research\dlt8\data\raw\ECUSTFD
+                     ↑ from https://github.com/Liang-yc/ECUSTFD-resized-.git
+                     files: 5991
+                     jpgs : 2978
+                     xmls : 2978
+
+Faster R-CNN ref   : E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+                     ↑ from https://github.com/Liang-yc/CalorieEstimation.git
+                     files: 344
+                     .m   : 111
+
+Logs written to:
+  E:\AI_Research\dlt8\logs\fetch_data.log
+  E:\AI_Research\dlt8\logs\git_clone.log
+  E:\AI_Research\dlt8\logs\verify_data.log
+[2026-08-01 21:35:24] === fetch_data.ipynb started ===
+[2026-08-01 21:35:24] PROJECT_ROOT   = E:\AI_Research\dlt8
+[2026-08-01 21:35:24] ECUSTFD_DIR    = E:\AI_Research\dlt8\data\raw\ECUSTFD
+[2026-08-01 21:35:24] BASELINE_DIR   = E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+[2026-08-01 21:35:24] LOGS_ROOT      = E:\AI_Research\dlt8\logs
+[2026-08-01 21:35:24] git available  = C:\Program Files\Git\cmd\git.EXE
+[2026-08-01 21:35:24] $ git --version  (cwd=e:\AI_Research\dlt8\src)
+[2026-08-01 21:35:24] -> exit code 0
+[2026-08-01 21:35:24] PARENT_GIT_INIT=False → skipping root git init.
+[2026-08-01 21:35:24] Existing ECUSTFD layout looks complete? True
+[2026-08-01 21:35:24] ECUSTFD already populated — skipping clone.
+[2026-08-01 21:35:24] ECUSTFD layout verified OK.
+[2026-08-01 21:35:24] Existing faster_rcnn layout looks complete? True
+[2026-08-01 21:35:24] faster_rcnn baseline already populated — skipping clone.
+[2026-08-01 21:35:24] Faster R-CNN baseline layout verified OK.
+[2026-08-01 21:35:24] Verification report saved to E:\AI_Research\dlt8\logs\verify_data.log
+[2026-08-01 21:35:24] density.xls OK (19 foods ≥ 19).
+[2026-08-01 21:35:24] === Data fetch complete ===
+
+ECUSTFD dataset    : E:\AI_Research\dlt8\data\raw\ECUSTFD
+                     ↑ from https://github.com/Liang-yc/ECUSTFD-resized-.git
+                     files: 5991
+                     jpgs : 2978
+                     xmls : 2978
+
+Faster R-CNN ref   : E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+                     ↑ from https://github.com/Liang-yc/CalorieEstimation.git
+                     files: 344
+                     .m   : 111
+
+Logs written to:
+  E:\AI_Research\dlt8\logs\fetch_data.log
+  E:\AI_Research\dlt8\logs\git_clone.log
+  E:\AI_Research\dlt8\logs\verify_data.log

@@ -1,0 +1,8 @@
+2026-08-15 00:39:31 [INFO] LOG_PATH = E:\AI_Research\dlt8\outputs\logs\05a_faster_rcnn_train_20260815-003931.log
+2026-08-15 00:39:31 [INFO] ======================================================================
+2026-08-15 00:39:31 [INFO] === 05a -- Faster R-CNN (new) -- Train one model ===
+2026-08-15 00:39:31 [INFO] ======================================================================
+2026-08-15 00:39:31 [INFO] PROJECT_ROOT = E:\AI_Research\dlt8
+2026-08-15 00:39:31 [INFO] LOG_PATH     = E:\AI_Research\dlt8\outputs\logs\05a_faster_rcnn_train_20260815-003931.log
+2026-08-15 00:39:31 [INFO] Timestamp    = 20260815-003931
+2026-08-15 00:39:31 [INFO] RUN_DIR      = E:\AI_Research\dlt8\outputs\predictions\05a_faster_rcnn_train_20260815-003931

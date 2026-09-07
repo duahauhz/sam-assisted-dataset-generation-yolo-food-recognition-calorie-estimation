@@ -1,0 +1,25 @@
+{
+  "config": {
+    "model_variant": "new",
+    "mask_backend": "grabcut",
+    "conf_threshold": 0.1,
+    "iou_threshold": 0.5,
+    "grabcut_iters": 5,
+    "device": "0"
+  },
+  "metric": "end_to_end_per_image_seconds",
+  "backend": "Faster R-CNN + GrabCut",
+  "n_images": 2088,
+  "total_seconds": 4583.413146698149,
+  "images_per_second": 0.45555570339631657,
+  "mean": 2.19512123884011,
+  "median": 2.102299749996746,
+  "p90": 2.7039726999937557,
+  "p95": 3.6669855000218377,
+  "p99": 4.756219599978067,
+  "min": 0.0910623999661766,
+  "max": 16.372076299972832,
+  "stdev": 0.7706135064236105,
+  "avg_n_detections": 2.071360153256705,
+  "avg_n_mask_calls": 1.0502873563218391
+}

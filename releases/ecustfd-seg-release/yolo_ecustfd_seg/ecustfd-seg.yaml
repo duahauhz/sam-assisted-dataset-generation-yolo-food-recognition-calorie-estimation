@@ -1,0 +1,41 @@
+# ECUSTFD Instance Segmentation Dataset (derived annotation layer)
+# Part of the ecustfd-seg release. Images are NOT included.
+#
+# SETUP: this YAML follows the Ultralytics layout with `labels/` directories.
+# To train, copy (or symlink) the original ECUSTFD images from
+# https://github.com/Liang-yc/ECUSTFD-resized- into sibling `images/` folders
+# created next to the existing `labels/`:
+#
+#   yolo_ecustfd_seg/
+#     images/train/   <- 1,245 official trainval .JPG (names match labels 1:1)
+#     images/val/     <- 1,733 official test .JPG
+#     labels/train/   (provided)
+#     labels/val/     (provided)
+#
+# Ultralytics resolves labels automatically from image paths
+# (images/ -> labels/ substitution), so no path/train/val keys are needed
+# once the images are in place. Train from this directory, e.g.:
+#   yolo task=segment mode=train model=yolo26n-seg.pt data=ecustfd-seg.yaml
+
+# Classes (20 total)
+names:
+  0: apple
+  1: banana
+  2: bread
+  3: bun
+  4: coin
+  5: doughnut
+  6: egg
+  7: fired_dough_twist
+  8: grape
+  9: lemon
+  10: litchi
+  11: mango
+  12: mooncake
+  13: orange
+  14: peach
+  15: pear
+  16: plum
+  17: qiwi
+  18: sachima
+  19: tomato

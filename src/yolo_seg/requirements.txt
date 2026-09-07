@@ -1,0 +1,5 @@
+# Core deps for YOLO26-seg training pipeline
+ultralytics>=8.4
+torch>=2.0
+opencv-python>=4.8
+numpy>=1.24

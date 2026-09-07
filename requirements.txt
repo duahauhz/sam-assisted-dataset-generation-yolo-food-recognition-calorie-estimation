@@ -1,0 +1,52 @@
+# Food Volume & Calorie Estimation — Python Dependencies
+# Install: pip install -r requirements.txt
+
+# Core
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Dataset parsing
+xlrd>=2.0.1  # Read .xls files (density.xls)
+openpyxl>=3.1.0  # Alternative for .xlsx
+
+# Image processing
+opencv-python>=4.8.0
+Pillow>=10.0.0
+imageio>=2.30.0
+
+# Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# YOLO
+ultralytics>=8.2.0  # YOLO13 / YOLOv8 framework
+
+# SAM (Segment Anything Model)
+segment-anything==1.0
+# Download checkpoint: sam_vit_b_01ec64.pth from https://github.com/facebookresearch/segment-anything
+# Save to: models/sam/sam_vit_b_01ec64.pth (NOT committed to the public repo; one-time download)
+
+# Depth Estimation (MiDaS)
+# pip install timm
+
+# XAI
+lime>=0.2.0.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Jupyter
+jupyter>=1.0.0
+ipykernel>=6.25.0
+nbformat>=5.9.0
+
+# Progress bars
+tqdm>=4.65.0
+
+# 3D reconstruction (optional)
+# open3d>=0.17.0  # For point cloud / voxelization
+
+# Type hints
+typing-extensions>=4.5.0

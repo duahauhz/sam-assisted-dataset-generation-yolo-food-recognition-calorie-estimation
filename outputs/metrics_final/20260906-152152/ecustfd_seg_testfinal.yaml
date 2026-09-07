@@ -1,0 +1,25 @@
+# Auto-generated: YOLO-seg val restricted to test_final (928 images)
+path: E:/AI_Research/dlt8/data/processed/yolo_ecustfd_seg
+train: E:/AI_Research/dlt8/outputs/metrics_final/20260906-152152/test_final_val.txt
+val: E:/AI_Research/dlt8/outputs/metrics_final/20260906-152152/test_final_val.txt
+names:
+  0: apple
+  1: banana
+  2: bread
+  3: bun
+  4: coin
+  5: doughnut
+  6: egg
+  7: fired_dough_twist
+  8: grape
+  9: lemon
+  10: litchi
+  11: mango
+  12: mooncake
+  13: orange
+  14: peach
+  15: pear
+  16: plum
+  17: qiwi
+  18: sachima
+  19: tomato

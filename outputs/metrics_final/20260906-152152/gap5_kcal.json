@@ -1,0 +1,37 @@
+{
+  "definition": "kcal_true = (q_gt / density_gt) * gt_mass; kcal_pred = (q_pred / density_pred) * mass_g; q from food_info.xls (paper Table 1), with predicted-class parameters for accepted predictions",
+  "per_model": {
+    "04": {
+      "n_eval": 6334,
+      "mae_kcal": 41.60466603260838,
+      "rmse_kcal": 107.97423518119481,
+      "me_kcal": -13.316700098446928,
+      "n_misclassified_accepted": 158,
+      "n_skipped": 0
+    },
+    "06a": {
+      "n_eval": 6334,
+      "mae_kcal": 65.00829658181846,
+      "rmse_kcal": 249.84694883041527,
+      "me_kcal": -38.55439513491646,
+      "n_misclassified_accepted": 379,
+      "n_skipped": 0
+    },
+    "06b": {
+      "n_eval": 6334,
+      "mae_kcal": 63.56897543843644,
+      "rmse_kcal": 249.80679387262063,
+      "me_kcal": -39.42276579144135,
+      "n_misclassified_accepted": 378,
+      "n_skipped": 0
+    },
+    "07": {
+      "n_eval": 6334,
+      "mae_kcal": 40.28777545569736,
+      "rmse_kcal": 99.70983824590937,
+      "me_kcal": -13.373339760478848,
+      "n_misclassified_accepted": 218,
+      "n_skipped": 0
+    }
+  }
+}

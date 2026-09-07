@@ -1,0 +1,61 @@
+2026-09-06 15:21:55,221 INFO Metrics final run 20260906-152152 -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152
+2026-09-06 15:21:55,509 INFO GAP2 assets: E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\test_final_val.txt (16 images), E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\ecustfd_seg_testfinal.yaml
+2026-09-06 15:22:01,161 INFO GAP2 04 (ecustfd_yolo26seg_best.pt): mask_mAP50=0.9950 box_mAP50=0.9950 [5.7s]
+2026-09-06 15:22:01,517 INFO GAP2 07 (ecustfd_yolov8seg_best.pt): mask_mAP50=0.9950 box_mAP50=0.9950 [0.4s]
+2026-09-06 15:22:01,520 INFO GAP2 saved -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap2_mask_map50.json
+2026-09-06 15:22:01,542 INFO GAP2 assets: E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\test_final_val.txt (928 images), E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\ecustfd_seg_testfinal.yaml
+2026-09-06 15:22:12,022 INFO GAP2 04 (ecustfd_yolo26seg_best.pt): mask_mAP50=0.9408 box_mAP50=0.9408 [10.5s]
+2026-09-06 15:22:21,797 INFO GAP2 07 (ecustfd_yolov8seg_best.pt): mask_mAP50=0.9715 box_mAP50=0.9715 [9.8s]
+2026-09-06 15:22:21,799 INFO GAP2 saved -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap2_mask_map50.json
+2026-09-06 15:22:44,085 INFO GAP1 progress 12/12 [20.3s]
+2026-09-06 15:22:44,087 INFO GAP1 saved -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap1_mask_quality_per_image.csv, E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap1_mask_quality_summary.json
+2026-09-06 15:23:24,751 INFO GAP1 progress 25/928 [39.3s]
+2026-09-06 15:24:15,670 INFO GAP1 progress 50/928 [90.2s]
+2026-09-06 15:24:56,079 INFO GAP1 progress 75/928 [130.6s]
+2026-09-06 15:25:28,752 INFO GAP1 progress 100/928 [163.3s]
+2026-09-06 15:26:25,157 INFO GAP1 progress 125/928 [219.7s]
+2026-09-06 15:27:06,895 INFO GAP1 progress 150/928 [261.4s]
+2026-09-06 15:27:55,395 INFO GAP1 progress 175/928 [309.9s]
+2026-09-06 15:28:42,580 INFO GAP1 progress 200/928 [357.1s]
+2026-09-06 15:29:25,054 INFO GAP1 progress 225/928 [399.6s]
+2026-09-06 15:30:08,394 INFO GAP1 progress 250/928 [442.9s]
+2026-09-06 15:30:52,779 INFO GAP1 progress 275/928 [487.3s]
+2026-09-06 15:31:31,945 INFO GAP1 progress 300/928 [526.5s]
+2026-09-06 15:31:58,024 INFO GAP1 progress 325/928 [552.5s]
+2026-09-06 15:32:49,527 INFO GAP1 progress 350/928 [604.1s]
+2026-09-06 15:33:34,278 INFO GAP1 progress 375/928 [648.8s]
+2026-09-06 15:34:17,312 INFO GAP1 progress 400/928 [691.8s]
+2026-09-06 15:34:59,637 INFO GAP1 progress 425/928 [734.2s]
+2026-09-06 15:35:41,454 INFO GAP1 progress 450/928 [776.0s]
+2026-09-06 15:36:24,087 INFO GAP1 progress 475/928 [818.6s]
+2026-09-06 15:37:06,621 INFO GAP1 progress 500/928 [861.1s]
+2026-09-06 15:38:03,996 INFO GAP1 progress 525/928 [918.5s]
+2026-09-06 15:39:12,444 INFO GAP1 progress 550/928 [987.0s]
+2026-09-06 15:39:55,450 INFO GAP1 progress 575/928 [1030.0s]
+2026-09-06 15:40:22,252 INFO GAP1 progress 600/928 [1056.8s]
+2026-09-06 15:40:49,448 INFO GAP1 progress 625/928 [1084.0s]
+2026-09-06 15:41:33,330 INFO GAP1 progress 650/928 [1127.9s]
+2026-09-06 15:42:17,931 INFO GAP1 progress 675/928 [1172.5s]
+2026-09-06 15:42:50,601 INFO GAP1 progress 700/928 [1205.1s]
+2026-09-06 15:43:24,950 INFO GAP1 progress 725/928 [1239.5s]
+2026-09-06 15:44:06,806 INFO GAP1 progress 750/928 [1281.3s]
+2026-09-06 15:44:48,168 INFO GAP1 progress 775/928 [1322.7s]
+2026-09-06 15:45:19,545 INFO GAP1 progress 800/928 [1354.1s]
+2026-09-06 15:45:59,943 INFO GAP1 progress 825/928 [1394.5s]
+2026-09-06 15:46:42,542 INFO GAP1 progress 850/928 [1437.1s]
+2026-09-06 15:47:27,348 INFO GAP1 progress 875/928 [1481.9s]
+2026-09-06 15:48:09,573 INFO GAP1 progress 900/928 [1524.1s]
+2026-09-06 15:48:53,359 INFO GAP1 progress 925/928 [1567.9s]
+2026-09-06 15:48:58,608 INFO GAP1 progress 928/928 [1573.1s]
+2026-09-06 15:48:58,617 INFO GAP1 saved -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap1_mask_quality_per_image.csv, E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap1_mask_quality_summary.json
+2026-09-06 15:49:16,582 INFO GAP3: 6334 pairs GT-valid in all 4 models; 41 items after intersection
+2026-09-06 15:49:16,591 INFO GAP3 04 vs 06a: ITEM p=0.4962 (N=41) | [pair-level ref p=6.86e-101]
+2026-09-06 15:49:16,595 INFO GAP3 04 vs 06b: ITEM p=1.0000 (N=41) | [pair-level ref p=2.32e-88]
+2026-09-06 15:49:16,597 INFO GAP3 04 vs 07: ITEM p=0.4486 (N=41) | [pair-level ref p=1.43e-02]
+2026-09-06 15:49:16,599 INFO GAP3 saved -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap3_wilcoxon.json
+2026-09-06 15:49:16,727 INFO GAP5 04: N=6334 MAE=41.60 kcal RMSE=107.97 kcal ME=-13.32 kcal
+2026-09-06 15:49:16,735 INFO GAP5 06a: N=6334 MAE=65.01 kcal RMSE=249.85 kcal ME=-38.55 kcal
+2026-09-06 15:49:16,743 INFO GAP5 06b: N=6334 MAE=63.57 kcal RMSE=249.81 kcal ME=-39.42 kcal
+2026-09-06 15:49:16,752 INFO GAP5 07: N=6334 MAE=40.29 kcal RMSE=99.71 kcal ME=-13.37 kcal
+2026-09-06 15:49:16,754 INFO GAP5 saved -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\gap5_kcal.json
+2026-09-06 15:49:16,778 INFO Summary written -> E:\AI_Research\dlt8\outputs\metrics_final\20260906-152152\summary_all_gaps.json

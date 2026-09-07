@@ -1,0 +1,24 @@
+{
+  "config": {
+    "model_variant": "yolo26_seg",
+    "conf_threshold": 0.05,
+    "iou_threshold": 0.5,
+    "imgsz": 480,
+    "device": "0"
+  },
+  "metric": "end_to_end_per_image_seconds",
+  "backend": "YOLO26-seg (Instance Segmentation)",
+  "n_images": 2088,
+  "total_seconds": 50.210877898090985,
+  "images_per_second": 41.58461447811861,
+  "mean": 0.024047355315177675,
+  "median": 0.022486600006232038,
+  "p90": 0.030250700016040355,
+  "p95": 0.03760310000507161,
+  "p99": 0.04510930000105873,
+  "min": 0.015166700002737343,
+  "max": 0.151081099989824,
+  "stdev": 0.007058087356779971,
+  "avg_n_detections": 2.9703065134099615,
+  "avg_n_mask_calls": 1.6235632183908046
+}

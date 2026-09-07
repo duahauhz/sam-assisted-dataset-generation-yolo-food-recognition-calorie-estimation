@@ -1,0 +1,90 @@
+# =====================================================================
+# dlt8 — public review repository .gitignore
+# Strategy: commit code, notebooks, curated metrics evidence, and trained
+# checkpoints; exclude third-party data, private drafts, and the heavy
+# annotation payload (published via Zenodo).
+# =====================================================================
+
+# ---------- Private / pre-publication material ----------
+# Working drafts, audits, and the paper sources themselves
+TMP/
+
+# Local clone material (original paper PDF, scratch images)
+ECUSTFD/
+
+# ---------- Third-party data (not ours to redistribute) ----------
+# Original ECUSTFD images + annotations: obtain from the official repo
+data/
+
+# Synthetic test fixtures (regenerable)
+fake/
+
+# ---------- Heavy release payload (published via Zenodo, not git) ----------
+# 2.8 GB SAM masks
+releases/ecustfd-seg-release/yolo_ecustfd_seg/sam_masks/
+# Checksums cover the full Zenodo payload (incl. excluded files); misleading in git
+releases/ecustfd-seg-release/SHA256SUMS
+# Images downloaded by users following the release README must never be committed
+releases/ecustfd-seg-release/yolo_ecustfd_seg/images/
+
+# ---------- Checkpoints ----------
+# SAM ViT-B base (375 MB, one-time upstream download)
+models/sam/
+# Exclude ALL .pt (stock pretrained bases at root/src/, duplicates in runs/);
+# re-include ONLY the trained models we ship from models/
+*.pt
+!models/*.pt
+!models/ablation/
+
+# 5-image smoke-test stubs (never ship)
+*.first5.txt
+
+# ---------- Agent / editor tooling ----------
+.agents/
+.zcode/
+.vscode/
+.cursor/
+.idea/
+.pytest_cache/
+
+# ---------- Python runtime noise ----------
+**/__pycache__/
+*.pyc
+*.bak
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg-info/
+.coverage
+htmlcov/
+
+# ---------- Jupyter ----------
+**/.ipynb_checkpoints/
+
+# ---------- Ultralytics runs ----------
+# Scratch dir (empty); keep runs/yolo_seg training evidence except weights
+runs/segment/
+
+# ---------- Outputs: keep curated, drop raw/superseded ----------
+# 146 MB intermediate training output
+outputs/predictions/05_train_new_20260815-032324/
+# 9.5 MB training console log
+outputs/logs/05_train_new_20260815-004340.log
+# Superseded threshold sweeps (20260902-234626 is the committed one)
+outputs/threshold_sweep/20260901-082552/
+outputs/threshold_sweep/20260902-195613/
+# Superseded GAP run (GT-class kcal variant; 20260906-152152 is the committed one)
+outputs/metrics_final/20260904-142641/
+
+# ---------- Stray logs at repo root ----------
+/*.log
+/*.txt.cov
+outputs/logs/micro_test*.log
+codex_review_readme.txt
+agy_review_readme.log
+
+# ---------- OS ----------
+Thumbs.db
+.DS_Store

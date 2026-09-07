@@ -1,0 +1,10 @@
+python=3.14.4
+platform=Windows-11-10.0.26200-SP0
+cwd=e:\AI_Research\dlt8\src
+PROJECT_ROOT=E:\AI_Research\dlt8
+RAW_ECUSTFD=E:\AI_Research\dlt8\data\raw\ECUSTFD
+FASTER_RCNN=E:\AI_Research\dlt8\ECUSTFD\faster_rcnn
+LOGS_ROOT=E:\AI_Research\dlt8\logs
+torch=2.13.0+cu130
+cuda_avail=True
+cuda_device=NVIDIA GeForce RTX 4050 Laptop GPU
