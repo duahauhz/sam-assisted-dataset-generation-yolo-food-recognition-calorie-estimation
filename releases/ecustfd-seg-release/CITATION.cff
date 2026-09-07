@@ -3,8 +3,11 @@ title: "ECUSTFD-Seg: an instance-segmentation annotation layer for the ECUSTFD f
 message: "If you use this annotation layer, please cite this work and the original ECUSTFD paper."
 type: dataset
 authors:
-  - family-names: "(author list per final paper submission)"
-repository-code: "https://github.com/<user>/ecustfd-seg"
+  - family-names: "Chien"
+    given-names: "Dang Van"
+  - family-names: "Huy"
+    given-names: "Nguyen Quang"
+repository-code: "https://github.com/duahauhz/sam-assisted-dataset-generation-yolo-food-recognition-calorie-estimation"
 identifiers:
   - type: other
     value: "2,978 images / 6,062 instances / 20 classes (19 foods + reference coin)"
