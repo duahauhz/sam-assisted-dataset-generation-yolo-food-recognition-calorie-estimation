@@ -24,6 +24,10 @@ fake/
 releases/ecustfd-seg-release/yolo_ecustfd_seg/sam_masks/
 # Checksums cover the full Zenodo payload (incl. excluded files); misleading in git
 releases/ecustfd-seg-release/SHA256SUMS
+# Zenodo upload archives (3 MB .tar.xz / formerly 2.94 GB .tar) — distributed via Zenodo only
+releases/*.tar
+releases/*.tar.xz
+releases/*.zip
 # Images downloaded by users following the release README must never be committed
 releases/ecustfd-seg-release/yolo_ecustfd_seg/images/
 
