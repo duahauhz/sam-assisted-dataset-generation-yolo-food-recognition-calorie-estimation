@@ -15,7 +15,7 @@ We upgrade the ECUSTFD food-calorie benchmark [1] with a semi-automatically gene
 
 \* Reference masks are the SAM-generated labels of the annotation layer, so the online-SAM pipeline is structurally favored in IoU; read jointly with the MAE columns. Mask mAP@50 of the learned models against the generated labels: 0.9715 (YOLOv8n), 0.9408 (YOLO26n). The contribution is the **single-stage design + dataset layer** rather than a specific detector version: at the item level (N = 41 items), the three tested YOLO26n-vs-baseline volume-error comparisons (GrabCut, FR-CNN+SAM, YOLOv8n) show **no statistically significant difference** (two-sided Wilcoxon signed-rank on per-item mean absolute relative volume error, p = 0.45–1.00), while the single-stage throughput advantage is 19–113× over the two-stage baselines (91–113× vs. GrabCut, 19–23× vs. online SAM). Volume MAE and coverage are computed over all 6,398 pairs under the penalized protocol; calorie MAE over the same 6,398 pairs minus the 64 mixed-food pairs without valid references (N = 6,334 scored pairs for every pipeline); throughput is measured end-to-end over the 2,088 images processed in each evaluation session (final-half + β-fit images).
 
-The derived annotation layer is packaged at `releases/ecustfd-seg-release/` — see [Annotation release](#annotation-release). The lightweight text artifacts (labels, patched XMLs, audit tables, splits) are committed in this repository; the 2.8 GB binary SAM masks are distributed as a Zenodo archive (DOI pending, will be linked here), not through git.
+The derived annotation layer is packaged at `releases/ecustfd-seg-release/` — see [Annotation release](#annotation-release). The lightweight text artifacts (labels, patched XMLs, audit tables, splits) are committed in this repository; the 2.8 GB binary SAM masks are distributed as a Zenodo archive, DOI [10.5281/zenodo.22664532](https://doi.org/10.5281/zenodo.22664532), not through git.
 
 ---
 
@@ -204,7 +204,7 @@ The derived annotation layer is packaged at `releases/ecustfd-seg-release/` (lab
 - `splits/` — official lists + `test_tune` / `test_final`.
 - `LICENSE` (CC BY 4.0), `CITATION.cff`, and a README with image-obtaining instructions. `SHA256SUMS` covers the full Zenodo payload (including the git-excluded masks), so it also lives in the Zenodo archive rather than in git.
 
-It contains **no ECUSTFD images**; users clone the original repository and overlay this layer by matching file names. See the release README for the full mapping notes (known naming quirks of the original release are documented there). Zenodo DOI pending publication.
+It contains **no ECUSTFD images**; users clone the original repository and overlay this layer by matching file names. See the release README for the full mapping notes (known naming quirks of the original release are documented there). The SAM-mask payload is archived on Zenodo: [10.5281/zenodo.22664532](https://doi.org/10.5281/zenodo.22664532) (the DOI resolves once the record is published).
 
 ## Model checkpoints
 

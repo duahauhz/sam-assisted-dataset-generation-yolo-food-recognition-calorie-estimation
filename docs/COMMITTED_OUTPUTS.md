@@ -65,5 +65,5 @@ The 9.5 MB `05_train_new_*` training log is excluded.
 - `releases/ecustfd-seg-release/` SAM-mask payload (2.8 GB) and `SHA256SUMS` —
   published via Zenodo with checksums; the repo keeps the lightweight text
   artifacts (splits, patched XMLs, audit tables, README, CITATION.cff, LICENSE)
-  so the structure is reviewable in-place. Zenodo DOI will be linked here upon
-  publication.
+  so the structure is reviewable in-place. Zenodo record:
+  https://doi.org/10.5281/zenodo.22664532 (resolves once published).
