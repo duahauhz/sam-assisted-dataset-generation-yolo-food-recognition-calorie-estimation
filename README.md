@@ -259,7 +259,7 @@ If you use this code or the annotation layer, please cite this work, the annotat
 
 ## Acknowledgements
 
-ECUSTFD is the work of Yanchao Liang and Jianhua Li [1]; its images remain the property of the original authors. We use Meta's Segment Anything Model [4], Ultralytics YOLOv8 [6] and YOLO26 [8], and torchvision's Faster R-CNN [2] with a MobileNetV3 [19] backbone. The geometric volume models, coin calibration, and energy factors are re-implemented from the original MATLAB/C++ release.
+ECUSTFD is the work of Yanchao Liang and Jianhua Li [1]; its images remain the property of the original authors. We use Meta's Segment Anything Model [4], Ultralytics YOLOv8 [6] and YOLO26 [7], and torchvision's Faster R-CNN [2] with a MobileNetV3 [19] backbone. The geometric volume models, coin calibration, and energy factors are re-implemented from the original MATLAB/C++ release.
 
 ## References
 
@@ -271,14 +271,14 @@ ECUSTFD is the work of Yanchao Liang and Jianhua Li [1]; its images remain the p
 [4] A. Kirillov, E. Mintun, N. Ravi, H. Mao, C. Rolland, L. Gustafson, T. Xiao, S. Whitehead, A. C. Berg, W.-Y. Lo, P. Dollár, and R. Girshick, "Segment Anything," arXiv preprint arXiv:2304.02643, 2023.
 [5] J. Redmon, S. Divvala, R. Girshick, and A. Farhadi, "You Only Look Once: Unified, real-time object detection," in *Proc. IEEE CVPR*, 2016.
 [6] G. Jocher, A. Chaurasia, and J. Qiu, "Ultralytics YOLOv8," Ultralytics, 2023. Software, ver. 8.4.87.
-[7] R. Sapkota and M. Karkee, "Ultralytics YOLO evolution: An overview of YOLO26, YOLO11, YOLOv8, and YOLOv5 object detectors for computer vision and pattern recognition," arXiv preprint arXiv:2510.09653, 2025.
-[8] G. Jocher, J. Qiu, M. Liu, S. Lyu, F. C. Akyon, and M. E. Kalfaoglu, "Ultralytics YOLO26: Unified real-time end-to-end vision models," arXiv preprint arXiv:2606.03748, 2026.
+[7] G. Jocher, J. Qiu, M. Liu, S. Lyu, F. C. Akyon, and M. E. Kalfaoglu, "Ultralytics YOLO26: Unified real-time end-to-end vision models," arXiv preprint arXiv:2606.03748, 2026.
+[8] R. Sapkota and M. Karkee, "Ultralytics YOLO evolution: An overview of YOLO26, YOLO11, YOLOv8, and YOLOv5 object detectors for computer vision and pattern recognition," arXiv preprint arXiv:2510.09653, 2025.
 [9] A. Myers, N. Johnston, V. Rathod, A. Korattikara, A. Gorban, N. Silberman, S. Guadarrama, G. Papandreou, J. Huang, and K. Murphy, "Im2Calories: Towards an automated mobile vision food diary," in *Proc. IEEE ICCV*, 2015.
 [10] P. Pouladzadeh, P. Kuhad, S. V. B. Peddi, A. Yassine, and S. Shirmohammadi, "Mobile cloud based food calorie measurement," in *Proc. IEEE ICMEW*, 2014.
 [11] J. He, Z. Shao, J. Wright, D. Kerr, C. Boushey, and F. Zhu, "Multi-task image-based dietary assessment for food recognition and portion size estimation," in *Proc. IEEE MIPR*, 2020.
 [12] J. He, R. Mao, Z. Shao, J. L. Wright, D. A. Kerr, C. J. Boushey, and F. Zhu, "An end-to-end food image analysis system," in *Proc. IS&T Electronic Imaging*, 2021.
 [13] Z. Shao, Y. Han, J. He, R. Mao, J. Wright, D. Kerr, C. Boushey, and F. Zhu, "An integrated system for mobile image-based dietary assessment," in *Proc. 3rd Workshop on AIxFood (AI&Food '21), ACM Multimedia (MM)*, 2021.
-[14] J. Dehais, M. Anthimopoulos, S. Shevchik, and S. G. Mougiakakou, "Two-view 3D reconstruction for food volume estimation," *IEEE Trans. Multimedia*, vol. 19, no. 5, pp. 1090–1099, 2017.
+[14] J. Dehais, M. Anthimopoulos, S. Shevchik, and S. Mougiakakou, "Two-view 3D reconstruction for food volume estimation," *IEEE Trans. Multimedia*, vol. 19, no. 5, pp. 1090–1099, 2017.
 [15] J. Gao, W. Tan, L. Ma, Y. Wang, and W. Tang, "MUSEFood: Multi-sensor-based food volume estimation on smartphones," in *Proc. IEEE SmartWorld/SCALCOM/UIC/ATC/CBDCom/IOP/SCI*, 2019.
 [16] A. AlMughrabi, U. Haroon, R. Marques, and P. Radeva, "VolETA: One- and few-shot food volume estimation," arXiv preprint arXiv:2407.01717, 2024.
 [17] A. AlMughrabi, U. Haroon, R. Marques, and P. Radeva, "VolTex: Food volume estimation using text-guided segmentation and neural surface reconstruction," in *Proc. IEEE/CVF CVPRW*, 2025.
