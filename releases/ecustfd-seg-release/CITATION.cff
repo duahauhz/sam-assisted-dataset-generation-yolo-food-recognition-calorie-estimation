@@ -8,6 +8,7 @@ authors:
   - family-names: "Huy"
     given-names: "Nguyen Quang"
 repository-code: "https://github.com/duahauhz/sam-assisted-dataset-generation-yolo-food-recognition-calorie-estimation"
+doi: 10.5281/zenodo.22673656
 identifiers:
   - type: other
     value: "2,978 images / 6,062 instances / 20 classes (19 foods + reference coin)"

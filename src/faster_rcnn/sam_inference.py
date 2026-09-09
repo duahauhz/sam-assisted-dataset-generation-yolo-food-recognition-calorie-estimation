@@ -21,7 +21,7 @@ correction, calorie estimation, metrics) needs **zero changes**.
 
 References
 ----------
-- SAM1 model: ``models/sam/sam_vit_b_01ec64.pth`` (vit_b, ~91 MB).
+- SAM1 model: ``models/sam/sam_vit_b_01ec64.pth`` (vit_b, ~375 MB).
 - Package: ``segment_anything`` (Meta AI).
 - Existing SAM1 box-prompt script (uses GT bboxes):
   ``src/data_prep_SAM1/sam_masks_full/segment_sam1_box.py`` (lines 144-165).

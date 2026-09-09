@@ -15,7 +15,7 @@ We upgrade the ECUSTFD food-calorie benchmark [1] with a semi-automatically gene
 
 \* Reference masks are the SAM-generated labels of the annotation layer, so the online-SAM pipeline is structurally favored in IoU; read jointly with the MAE columns. Mask mAP@50 of the learned models against the generated labels: 0.9715 (YOLOv8n), 0.9408 (YOLO26n). The contribution is the **single-stage design + dataset layer** rather than a specific detector version: at the item level (N = 41 items), the three tested YOLO26n-vs-baseline volume-error comparisons (GrabCut, FR-CNN+SAM, YOLOv8n) show **no statistically significant difference** (two-sided Wilcoxon signed-rank on per-item mean absolute relative volume error, p = 0.45–1.00), while the single-stage throughput advantage is 19–113× over the two-stage baselines (91–113× vs. GrabCut, 19–23× vs. online SAM). Volume MAE and coverage are computed over all 6,398 pairs under the penalized protocol; calorie MAE over the same 6,398 pairs minus the 64 mixed-food pairs without valid references (N = 6,334 scored pairs for every pipeline); throughput is measured end-to-end over the 2,088 images processed in each evaluation session (final-half + β-fit images).
 
-The derived annotation layer is packaged at `releases/ecustfd-seg-release/` — see [Annotation release](#annotation-release). The lightweight text artifacts (labels, patched XMLs, audit tables, splits) are committed in this repository; the 2.8 GB binary SAM masks are distributed as a Zenodo archive, DOI [10.5281/zenodo.22664532](https://doi.org/10.5281/zenodo.22664532), not through git.
+The derived annotation layer is packaged at `releases/ecustfd-seg-release/` — see [Annotation release](#annotation-release). The lightweight text artifacts (labels, patched XMLs, audit tables, splits) are committed in this repository; the 2.8 GB binary SAM masks are distributed as a Zenodo archive, DOI [10.5281/zenodo.22673656](https://doi.org/10.5281/zenodo.22673656), not through git.
 
 ---
 
@@ -44,7 +44,7 @@ Four pipelines share the same volume/calorie mathematics; only the vision stage 
 
 1. **`01`–`02` Label generation (offline).** Every original bounding box prompts a frozen SAM ViT-B; masks are reviewed visually against per-instance proxy-IoU diagnostics, 37 boxes are corrected in the VOC XMLs, and one mask is replaced by a manual override. Output: YOLO-seg label set (20 classes = 19 foods + reference coin) with full provenance flags (`raw_gt_box_prompt` / `patched_gt_box_prompt` / `manual_mask_override`).
 2. **Detection + segmentation (online).** Either a two-stage baseline (Faster R-CNN + GrabCut / SAM) or a single-stage YOLO-segmentation model (YOLO26n / YOLOv8n, both trained on the generated labels).
-3. **Geometry (inherited from [1]).** Coin-calibrated pixel scale α; per-class dispatch to five geometric volume models (ellipsoid / column / solid of revolution / grape air-gap / torus), integrating the two viewpoint masks row-wise.
+3. **Geometry (inherited from [1]).** Coin-calibrated pixel scale α; per-class dispatch to five geometric volume models (ellipsoid / column / solid of revolution / grape air-gap / torus), integrating the two viewpoint masks row-wise (the ellipsoid model uses the side view only, per the original formulation).
 4. **Calibration + energy.** Per-class volume-bias correction β_k fitted on a 50/50 item split of the training items (1,169 images), then mass (ρ_k) and calories (q_k · Ṽ) with the predicted class's parameters, as in the original detected-class loop.
 
 ## Repository layout
@@ -149,9 +149,10 @@ jupyter nbconvert --execute src/06b_faster_rcnn_sam_eval.ipynb        # + SAM,  
 jupyter nbconvert --execute src/07_e2e_yolov8_paper_faithful.ipynb    # YOLOv8n,   τ=0.30
 
 # 5) statistics + headline metrics
-jupyter nbconvert --execute src/07_statistical_test.ipynb
 jupyter nbconvert --execute src/08_paper_metrics_final.ipynb
 ```
+
+`src/07_statistical_test.ipynb` is an early exploratory notebook kept for history; it reads superseded August run files and is **not** part of the reproduction path — the paper's Wilcoxon tests are produced by `08_paper_metrics_final.ipynb` (GAP3).
 
 For exploratory runs without notebooks, the underlying CLI is:
 
@@ -166,14 +167,14 @@ python -m src.e2e_pipeline run --split test --conf 0.05 --apply-beta   # explora
 The official ECUSTFD split has no held-out test: its `val.txt` is part of `trainval` (validation fitness was computed on images seen in training), and the original MATLAB code hard-codes `thres=0.8` — a hand-tuned 2017 artifact. We therefore:
 
 - **Split the official test set** (1,733 images) into two disjoint halves: `test_tune` (805 images, 6,557 pairs) for threshold selection and `test_final` (928 images, 6,398 pairs) for reporting — lists in `releases/ecustfd-seg-release/splits/` (local) and `data/raw/ECUSTFD/ImageSets/Main/`.
-- **Tune, then freeze** per-model confidence thresholds on the tuning half (β disabled). The committed sweep artifacts (`best_thresholds.json`) apply the raw rule *minimum volume MAE subject to Coverage ≥ 85%*; on top of that constraint, differences within 0.3 pp were treated as noise and broken toward higher coverage, which is how the deployed YOLOv8n value (0.30, on an exactly flat prediction plateau at τ = 0.05–0.30) supersedes the raw-rule pick (0.95, a selection-effect artifact that drops coverage to 94.7%). Final frozen values: τ = 0.05 (YOLO26n), 0.30 (YOLOv8n), 0.10 (FR-CNN+GrabCut), 0.05 (FR-CNN+SAM). The 0.8 default is **not** used anywhere. Because the penalized protocol charges a 100% error for every miss, the sweep naturally favors low τ (high coverage); the residual cost is a small number of low-confidence false-positive detections (e.g., coin false positives on background objects), which is why coverage is always reported alongside the penalized MAE — see the threshold-sweep report for the full coverage/MAE curve per model.
+- **Tune, then freeze** per-model confidence thresholds on the tuning half (β disabled). The committed sweep artifacts (`best_thresholds.json`) apply the raw rule *minimum volume MAE subject to Coverage ≥ 85%*; on top of that constraint, differences within 0.3 pp were treated as noise and broken toward higher coverage, which is how the deployed YOLOv8n value (0.30, on an exactly flat prediction plateau at τ = 0.05–0.30) supersedes the raw-rule pick (0.95, a selection-effect artifact that drops coverage to 94.7%). Final frozen values: τ = 0.05 (YOLO26n), 0.30 (YOLOv8n), 0.10 (FR-CNN+GrabCut), 0.05 (FR-CNN+SAM); no reported number uses the legacy 0.8 default (it survives only as unused function defaults in exploratory scripts). Because the penalized protocol charges a 100% error for every miss, the sweep naturally favors low τ (high coverage); the residual cost is a small number of low-confidence false-positive detections (e.g., coin false positives on background objects), which is why coverage is always reported alongside the penalized MAE — per-model `sweep_results.json` (under `outputs/threshold_sweep/`) carries the full coverage/MAE curves; the printed report lists only the selected thresholds.
 - **Penalized protocol**: an unaccepted pair is not discarded — it contributes a zero-volume sample carrying its ground-truth reference (a 100% volume error in the correct class). Report fields `n_pairs` / `n_samples` / `n_pairs_with_samples` make this auditable (6,398 → 6,354–6,389 accepted depending on model).
-- **Item-level statistics**: the 6,398 pairs cluster into 41 items (median 81 pairs/item), so all significance tests are Wilcoxon signed-rank at the item level (N = 41); pair-level counts are pseudo-replicated and never used for inference.
+- **Item-level statistics**: the 6,398 pairs cluster within 45 items; 4 of them (`mix011`–`mix014`, 64 pairs) have no single-food ground truth, leaving 41 scorable items (median 81 pairs/item among the 41), so all significance tests are Wilcoxon signed-rank at the item level (N = 41); pair-level counts are pseudo-replicated and never used for inference.
 - **Known limitation (disclosed in the paper):** the YOLO `best.pt` checkpoints were selected by validation fitness on the official test split (which contains the final half) — a mild checkpoint-selection leakage (~1 pp mAP) favoring the YOLO pipelines; the Faster R-CNN baseline is unaffected.
 
 ## Reproducing the paper numbers
 
-The committed artifacts double as evidence. Each final-half run directory contains `report_*.json` (overall + per-class metrics), `samples_*.csv` (6,398 rows, one per pair), `betas_train_*.json` (fitted β_k), `speed_per_image.json` (n = 2,088 images), and `summary.txt`; the matching console log lives in `outputs/logs/`:
+The committed artifacts double as evidence. Each final-half evaluation run directory contains `report_*.json` (overall + per-class metrics), `samples_*.csv` (6,398 rows, one per pair), `betas_train_*.json` (fitted β_k), `speed_per_image.json`, and `summary.txt` (the speed file covers the session's `n = 2,088` processed images: 928 final-half + 1,160 β-fit images, as captioned in the headline table); the matching console log lives in `outputs/logs/`:
 
 | Artifact | Path |
 |:--|:--|
@@ -198,13 +199,13 @@ python -m pytest src -q
 
 The derived annotation layer is packaged at `releases/ecustfd-seg-release/` (labels-only; the 2.8 GB SAM-mask payload is distributed via Zenodo, not git):
 
-- `yolo_ecustfd_seg/` — YOLO-seg labels (train 1,245 / val 1,733 = official trainval/test images) + dataset YAML; the per-image SAM mask `.npy` files (with provenance) belong to the Zenodo payload.
+- `yolo_ecustfd_seg/` — YOLO-seg labels (train 1,245 / val 1,733 = official trainval/test images) + dataset YAML; the per-image SAM mask `.npy` files (with provenance) belong to the Zenodo payload. (The audit index carries 21 class names because four `qiwi007`/`qiwi006` instances are logged with the misspelling `kiwi`; the label set itself has exactly 20 classes.)
 - `patched_xml/` — the 37 corrected VOC XMLs (drop-in replacements).
 - `audit/` — per-instance IoU index, per-image stats, per-class counts.
 - `splits/` — official lists + `test_tune` / `test_final`.
 - `LICENSE` (CC BY 4.0), `CITATION.cff`, and a README with image-obtaining instructions. `SHA256SUMS` covers the full Zenodo payload (including the git-excluded masks), so it also lives in the Zenodo archive rather than in git.
 
-It contains **no ECUSTFD images**; users clone the original repository and overlay this layer by matching file names. See the release README for the full mapping notes (known naming quirks of the original release are documented there). The SAM-mask payload is archived on Zenodo: [10.5281/zenodo.22664532](https://doi.org/10.5281/zenodo.22664532) (the DOI resolves once the record is published).
+It contains **no ECUSTFD images**; users clone the original repository and overlay this layer by matching file names. See the release README for the full mapping notes (known naming quirks of the original release are documented there). The SAM-mask payload is archived on Zenodo: [10.5281/zenodo.22673656](https://doi.org/10.5281/zenodo.22673656) ([`ecustfd-seg-release.tar.xz`, 3.1 MB, MD5 `58bed12c10240982d1dd183cbb62a214`](https://zenodo.org/records/22673656)).
 
 ## Model checkpoints
 
@@ -220,7 +221,7 @@ Also present: `*_last.pt` YOLO checkpoints and the Ultralytics training evidence
 
 ## Citation
 
-If you use this code or the annotation layer, please cite both this work and the original ECUSTFD paper:
+If you use this code or the annotation layer, please cite this work, the annotation dataset, and the original ECUSTFD paper:
 
 ```bibtex
 @article{chien2026sam,
@@ -228,7 +229,17 @@ If you use this code or the annotation layer, please cite both this work and the
              Estimation Using Single-Stage YOLO Segmentation},
   author  = {Chien, Dang Van and Huy, Nguyen Quang},
   year    = {2026},
-  note    = {Preprint; annotation layer at releases/ecustfd-seg-release (SAM masks via Zenodo)}
+  note    = {Preprint; annotation layer at releases/ecustfd-seg-release in the code repository}
+}
+
+@dataset{chien2026ecustfdseg,
+  title        = {ECUSTFD-Seg: an instance-segmentation annotation layer
+                  for the ECUSTFD food-calorie benchmark},
+  author       = {Chien, Dang Van and Huy, Nguyen Quang},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.22673656},
+  url          = {https://doi.org/10.5281/zenodo.22673656}
 }
 
 @article{liang2017computer,

@@ -36,6 +36,11 @@ ecustfd-seg-release/
     └── test_final.txt (928)   # reporting half of test (all paper numbers)
 ```
 
+The `sam_masks/` payload (2.8 GB) is not tracked in the git repository — the
+complete release, masks included, is archived on Zenodo, DOI
+[10.5281/zenodo.22673656](https://doi.org/10.5281/zenodo.22673656)
+(`ecustfd-seg-release.tar.xz`, extract with `tar -xJf`).
+
 To train with Ultralytics, place the original images into
 `yolo_ecustfd_seg/images/{train,val}/` (create the folders) with the file
 names matching the labels — see the instructions in
