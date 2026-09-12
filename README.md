@@ -2,18 +2,18 @@
 
 Reference implementation of **"SAM-Assisted Dataset Generation for Food Recognition and Calorie Estimation Using Single-Stage YOLO Segmentation"** (Dang Van Chien and Nguyen Quang Huy).
 
-We upgrade the ECUSTFD food-calorie benchmark [1] with a semi-automatically generated **instance-segmentation layer**: a frozen SAM ViT-B, box-prompted with the original annotations, produces 6,062 polygon masks over all 2,978 images. Every mask was audited visually against per-instance proxy-IoU diagnostics; 2,940/2,978 images (98.7%) needed no manual correction, while 37 boxes were corrected in the VOC XMLs and one mask was replaced by a manual override. On this layer we build a **single-stage** calorie-estimation system in which one YOLO segmentation model replaces the original two-stage Faster R-CNN [2] + GrabCut [3] pipeline, while the original volume/calorie mathematics is kept as a faithful re-implementation.
+We upgrade the ECUSTFD food-calorie benchmark [1] with a semi-automatically generated **instance-segmentation layer**: a frozen SAM ViT-B, box-prompted with the original annotations, produces 6,062 polygon masks over all 2,978 images. Every image's box renderings and mask overlays were visually inspected, and each image was screened by the mean per-instance proxy-IoU of its masks against a 0.50 review gate; 2,940/2,978 images (98.7%) needed no manual correction, while 37 boxes were corrected in the VOC XMLs and one mask was replaced by a manual override. On this layer we build a **single-stage** calorie-estimation system in which one YOLO segmentation model replaces the original two-stage Faster R-CNN [2] + GrabCut [3] pipeline, while the original volume/calorie mathematics is kept as a faithful re-implementation with the same documented adaptations across all compared pipelines.
 
 **Headline results** (final half of the official test set: 928 images, 6,398 top–side pairs, penalized protocol where every missed pair counts as a 100% volume error; frozen per-model operating points; RTX 4050 Laptop):
 
-| Pipeline | end-to-end mIoU | Volume MAE % | Calorie MAE (kcal) | Coverage % | Throughput (img/s) |
+| Pipeline | mIoU | Volume MAE % | Calorie MAE (kcal) | Coverage % | Latency (ms/img, median) |
 |:--|:--:|:--:|:--:|:--:|:--:|
-| Faster R-CNN + GrabCut [1]–[3] | 0.925 | 27.06 | 65.01 | 99.86 | 0.46 |
-| Faster R-CNN + SAM [4] | 0.975\* | 24.87 | 63.57 | 99.86 | 2.20 |
-| YOLOv8n-Seg (single-stage) | 0.942 | **24.54** | **40.29** | 99.52 | **51.6** |
-| YOLO26n-Seg (single-stage) | 0.940 | 25.38 | 41.60 | 99.31 | 41.6 |
+| Faster R-CNN + GrabCut [1]–[3] | 0.925 | 27.06 | 65.01 | 99.86 | 2102 |
+| Faster R-CNN + SAM [2], [8] | 0.975\* | 24.87 | 63.57 | 99.86 | 442 |
+| YOLOv8n-Seg (single-stage) | 0.942 | **24.54** | **40.29** | 99.52 | **17.8** |
+| YOLO26n-Seg (single-stage) | 0.940 | 25.38 | 41.60 | 99.31 | 22.5 |
 
-\* Reference masks are the SAM-generated labels of the annotation layer, so the online-SAM pipeline is structurally favored in IoU; read jointly with the MAE columns. Mask mAP@50 of the learned models against the generated labels: 0.9715 (YOLOv8n), 0.9408 (YOLO26n). The contribution is the **single-stage design + dataset layer** rather than a specific detector version: at the item level (N = 41 items), the three tested YOLO26n-vs-baseline volume-error comparisons (GrabCut, FR-CNN+SAM, YOLOv8n) show **no statistically significant difference** (two-sided Wilcoxon signed-rank on per-item mean absolute relative volume error, p = 0.45–1.00), while the single-stage throughput advantage is 19–113× over the two-stage baselines (91–113× vs. GrabCut, 19–23× vs. online SAM). Volume MAE and coverage are computed over all 6,398 pairs under the penalized protocol; calorie MAE over the same 6,398 pairs minus the 64 mixed-food pairs without valid references (N = 6,334 scored pairs for every pipeline); throughput is measured end-to-end over the 2,088 images processed in each evaluation session (final-half + β-fit images).
+\* Reference masks are the SAM-generated labels of the annotation layer, so the online-SAM pipeline is structurally favored in IoU; read jointly with the MAE columns. Mask mAP@50 of the learned models against the generated labels: 0.9715 (YOLOv8n), 0.9408 (YOLO26n). The contribution is the **single-stage design + dataset layer** rather than a specific detector version: at the item level (N = 41 items), the three tested YOLO26n-vs-baseline volume-error comparisons (GrabCut, FR-CNN+SAM, YOLOv8n) show **no statistically significant difference** (two-sided Wilcoxon signed-rank on per-item mean absolute relative volume error, p = 0.45–1.00), while the single-stage latency advantage on the same GPU is nearly 20× over the stronger two-stage baseline, FR-CNN+SAM (median 442 → 22.5 ms for YOLO26n-Seg, 17.8 ms for YOLOv8n-Seg; p95 517 → 37.6 / 32.0 ms). Coverage is the proportion of all 6,398 final-half pairs yielding a volume estimate; volume and calorie MAE use the 6,334 scored pairs (the 64 mixed-food pairs without valid references are excluded from reference-based errors for every pipeline). Median per-image latency (detection + segmentation) is measured over the same 2,088 images in each evaluation session (final-half + β-fit images).
 
 The derived annotation layer is packaged at `releases/ecustfd-seg-release/` — see [Annotation release](#annotation-release). The lightweight text artifacts (labels, patched XMLs, audit tables, splits) are committed in this repository; the 2.8 GB binary SAM masks are distributed as a Zenodo archive, DOI [10.5281/zenodo.22673656](https://doi.org/10.5281/zenodo.22673656), not through git.
 
@@ -45,7 +45,7 @@ Four pipelines share the same volume/calorie mathematics; only the vision stage 
 1. **`01`–`02` Label generation (offline).** Every original bounding box prompts a frozen SAM ViT-B; masks are reviewed visually against per-instance proxy-IoU diagnostics, 37 boxes are corrected in the VOC XMLs, and one mask is replaced by a manual override. Output: YOLO-seg label set (20 classes = 19 foods + reference coin) with full provenance flags (`raw_gt_box_prompt` / `patched_gt_box_prompt` / `manual_mask_override`).
 2. **Detection + segmentation (online).** Either a two-stage baseline (Faster R-CNN + GrabCut / SAM) or a single-stage YOLO-segmentation model (YOLO26n / YOLOv8n, both trained on the generated labels).
 3. **Geometry (inherited from [1]).** Coin-calibrated pixel scale α; per-class dispatch to five geometric volume models (ellipsoid / column / solid of revolution / grape air-gap / torus), integrating the two viewpoint masks row-wise (the ellipsoid model uses the side view only, per the original formulation).
-4. **Calibration + energy.** Per-class volume-bias correction β_k fitted on a 50/50 item split of the training items (1,169 images), then mass (ρ_k) and calories (q_k · Ṽ) with the predicted class's parameters, as in the original detected-class loop.
+4. **Calibration + energy.** Per-class volume-bias correction β_k fitted on the calibration half of the dataset (a per-class 50/50 item split of all 2,978 images: 1,169 images / 6,772 top–side pairs; disjoint from the final evaluation half at the item level, though it shares items with the threshold-tuning half), then mass (ρ_k) and calories (q_k · Ṽ) with the predicted class's parameters, as in the original detected-class loop.
 
 ## Repository layout
 
@@ -107,7 +107,7 @@ Every notebook is self-contained (config in cell 3) and logs concurrently to con
 pip install -r requirements.txt          # torch, ultralytics, opencv, scipy, jupyter, …
 ```
 
-Tested environment: Windows 11 + Git Bash, Python 3.14.4, PyTorch 2.13.0 (CUDA 13.0), Ultralytics 8.4.87; hardware used for all reported results: NVIDIA RTX 4050 Laptop GPU (6 GB). The CPU-only path also runs, but the two-stage baselines become impractically slow (GrabCut ≈ 0.46 img/s is already a GPU measurement). Two additional one-time downloads:
+Tested environment: Windows 11 + Git Bash, Python 3.14.4, PyTorch 2.13.0 (CUDA 13.0), Ultralytics 8.4.87; hardware used for all reported results: NVIDIA RTX 4050 Laptop GPU (6 GB). The CPU-only path also runs, but the two-stage baselines become impractically slow (GrabCut's ≈2.1 s/img median is already a GPU measurement). Two additional one-time downloads:
 
 - **SAM ViT-B** checkpoint `sam_vit_b_01ec64.pth` → `models/sam/` (from [facebookresearch/segment-anything](https://github.com/facebookresearch/segment-anything)).
 - **ECUSTFD images** (see below).
@@ -164,13 +164,13 @@ python -m src.e2e_pipeline run --split test --conf 0.05 --apply-beta   # explora
 
 ## Evaluation protocol
 
-The official ECUSTFD split has no held-out test: its `val.txt` is part of `trainval` (validation fitness was computed on images seen in training), and the original MATLAB code hard-codes `thres=0.8` — a hand-tuned 2017 artifact. We therefore:
+The official ECUSTFD split has no held-out test: its `val.txt` is part of `trainval`, so the dataset's own validation overlap cannot certify generalization, and the original MATLAB code hard-codes `thres=0.8` — a hand-tuned 2017 artifact. We therefore:
 
 - **Split the official test set** (1,733 images) into two disjoint halves: `test_tune` (805 images, 6,557 pairs) for threshold selection and `test_final` (928 images, 6,398 pairs) for reporting — lists in `releases/ecustfd-seg-release/splits/` (local) and `data/raw/ECUSTFD/ImageSets/Main/`.
-- **Tune, then freeze** per-model confidence thresholds on the tuning half (β disabled). The committed sweep artifacts (`best_thresholds.json`) apply the raw rule *minimum volume MAE subject to Coverage ≥ 85%*; on top of that constraint, differences within 0.3 pp were treated as noise and broken toward higher coverage, which is how the deployed YOLOv8n value (0.30, on an exactly flat prediction plateau at τ = 0.05–0.30) supersedes the raw-rule pick (0.95, a selection-effect artifact that drops coverage to 94.7%). Final frozen values: τ = 0.05 (YOLO26n), 0.30 (YOLOv8n), 0.10 (FR-CNN+GrabCut), 0.05 (FR-CNN+SAM); no reported number uses the legacy 0.8 default (it survives only as unused function defaults in exploratory scripts). Because the penalized protocol charges a 100% error for every miss, the sweep naturally favors low τ (high coverage); the residual cost is a small number of low-confidence false-positive detections (e.g., coin false positives on background objects), which is why coverage is always reported alongside the penalized MAE — per-model `sweep_results.json` (under `outputs/threshold_sweep/`) carries the full coverage/MAE curves; the printed report lists only the selected thresholds.
+- **Tune, then freeze** per-model confidence thresholds on the tuning half (β disabled) over eight thresholds from 0.05 to 0.95, selected by *minimum volume MAE subject to Coverage ≥ 85%*, then frozen manually with a preference for full coverage before any final-half evaluation. The committed sweep artifacts (`best_thresholds.json`) record the raw rule's picks; for YOLOv8n the raw pick (0.95, a selection-effect artifact that drops coverage to 94.7%) was superseded by a manual choice of 0.30 on an exactly flat full-coverage prediction plateau (identical MAE at τ = 0.05–0.30). Final frozen values: τ = 0.05 (YOLO26n), 0.30 (YOLOv8n), 0.10 (FR-CNN+GrabCut), 0.05 (FR-CNN+SAM); no reported number uses the legacy 0.8 default (it survives only as unused function defaults in exploratory scripts). Because the penalized protocol charges a 100% error for every miss, the sweep naturally favors low τ (high coverage); the residual cost is a small number of low-confidence false-positive detections (e.g., coin false positives on background objects), which is why coverage is always reported alongside the penalized MAE — per-model `sweep_results.json` (under `outputs/threshold_sweep/`) carries the full coverage/MAE curves; the printed report lists only the selected thresholds.
 - **Penalized protocol**: an unaccepted pair is not discarded — it contributes a zero-volume sample carrying its ground-truth reference (a 100% volume error in the correct class). Report fields `n_pairs` / `n_samples` / `n_pairs_with_samples` make this auditable (6,398 → 6,354–6,389 accepted depending on model).
 - **Item-level statistics**: the 6,398 pairs cluster within 45 items; 4 of them (`mix011`–`mix014`, 64 pairs) have no single-food ground truth, leaving 41 scorable items (median 81 pairs/item among the 41), so all significance tests are Wilcoxon signed-rank at the item level (N = 41); pair-level counts are pseudo-replicated and never used for inference.
-- **Known limitation (disclosed in the paper):** the YOLO `best.pt` checkpoints were selected by validation fitness on the official test split (which contains the final half) — a mild checkpoint-selection leakage (~1 pp mAP) favoring the YOLO pipelines; the Faster R-CNN baseline is unaffected.
+- **Known limitation (disclosed in the paper):** the YOLO `best.pt` checkpoints were selected by per-epoch validation fitness (sum of box + mask mAP50–95) computed on the official test split (1,733 images, which contains the final half) — a checkpoint-selection leakage favoring the YOLO pipelines (mask mAP50 at the best epoch vs. the final epoch: 0.9681 vs. 0.9581 for YOLO26n, 0.9878 vs. 0.9815 for YOLOv8n, from the committed `results.csv`); the Faster R-CNN baseline selects by lowest mean total training loss and is unaffected.
 
 ## Reproducing the paper numbers
 
@@ -185,7 +185,7 @@ The committed artifacts double as evidence. Each final-half evaluation run direc
 | Threshold sweep (tuning half) | `outputs/threshold_sweep/20260902-234626/` |
 | GAP metrics: mIoU / mAP / Wilcoxon / kcal MAE | `outputs/metrics_final/20260906-152152/` (source of every headline number) |
 
-Mapping from paper Table II to files: mIoU ← `gap1_mask_quality_summary.json` (`mean_iou_micro`); Volume MAE ← run `report_*.json` → `overall.mean_abs_me_volume_pct` (penalized: misses carry 100% error); Calorie MAE ← `gap5_kcal.json` → `mae_kcal`; Coverage ← `report_*.json` → `n_pairs_with_samples / n_pairs`; Throughput ← `speed_per_image.json` → `images_per_second`.
+Mapping from the paper's Table I to files: mIoU ← `gap1_mask_quality_summary.json` (`mean_iou_micro`); Volume MAE ← run `report_*.json` → `overall.mean_abs_me_volume_pct` (penalized: misses carry 100% error); Calorie MAE ← `gap5_kcal.json` → `mae_kcal`; Coverage ← `report_*.json` → `n_pairs_with_samples / n_pairs`; Latency (ms/img, median) ← `speed_per_image.json` → `median`.
 
 ## Test suite
 
@@ -199,13 +199,17 @@ python -m pytest src -q
 
 The derived annotation layer is packaged at `releases/ecustfd-seg-release/` (labels-only; the 2.8 GB SAM-mask payload is distributed via Zenodo, not git):
 
+![Representative SAM segmentation results across all 19 ECUSTFD food categories](docs/img/fig1_sam_samples.jpg)
+
+*Representative masks from the generated layer across all 19 ECUSTFD food categories (one category per tile; category-colored overlay with boundary contour; the One-Yuan calibration coin appears in each scene). Figure 2 of the paper; the underlying photographs belong to the original ECUSTFD release [1] and are shown here for documentation only.*
+
 - `yolo_ecustfd_seg/` — YOLO-seg labels (train 1,245 / val 1,733 = official trainval/test images) + dataset YAML; the per-image SAM mask `.npy` files (with provenance) belong to the Zenodo payload. (The audit index carries 21 class names because four `qiwi007`/`qiwi006` instances are logged with the misspelling `kiwi`; the label set itself has exactly 20 classes.)
 - `patched_xml/` — the 37 corrected VOC XMLs (drop-in replacements).
 - `audit/` — per-instance IoU index, per-image stats, per-class counts.
 - `splits/` — official lists + `test_tune` / `test_final`.
 - `LICENSE` (CC BY 4.0), `CITATION.cff`, and a README with image-obtaining instructions. `SHA256SUMS` covers the full Zenodo payload (including the git-excluded masks), so it also lives in the Zenodo archive rather than in git.
 
-It contains **no ECUSTFD images**; users clone the original repository and overlay this layer by matching file names. See the release README for the full mapping notes (known naming quirks of the original release are documented there). The SAM-mask payload is archived on Zenodo: [10.5281/zenodo.22673656](https://doi.org/10.5281/zenodo.22673656) ([`ecustfd-seg-release.tar.xz`, 3.1 MB, MD5 `58bed12c10240982d1dd183cbb62a214`](https://zenodo.org/records/22673656)).
+It contains **no ECUSTFD images**; users clone the original repository and overlay this layer by matching file names. See the release README for the full mapping notes (known naming quirks of the original release are documented there). The complete release, masks included, is archived on Zenodo as one highly compressed archive, [10.5281/zenodo.22673656](https://doi.org/10.5281/zenodo.22673656) ([`ecustfd-seg-release.tar.xz`, 3.14 MB download](https://zenodo.org/records/22673656)); after extraction it occupies ≈2.9 GB on disk, of which the per-image SAM `.npy` masks account for ≈2.8 GB (`tar -xJf ecustfd-seg-release.tar.xz`).
 
 ## Model checkpoints
 
@@ -254,12 +258,12 @@ If you use this code or the annotation layer, please cite this work, the annotat
 
 - **Code** (this repository, `src/`, evaluation scripts, notebooks): **MIT** — see `LICENSE`.
 - **Annotation layer** (`releases/ecustfd-seg-release/`): **CC BY 4.0** — see its `LICENSE` file.
-- **ECUSTFD images**: property of the original authors; this repository does not redistribute them.
+- **ECUSTFD images**: property of the original authors; this repository does not redistribute the dataset. The documentation figure under `docs/img/` reproduces a small selection of original photographs with derived mask overlays for identification/documentation purposes only (the same figure as in the paper); it is not part of the annotation release and confers no redistribution rights on the underlying photographs.
 - Third-party components retain their upstream licenses: Ultralytics (AGPL-3.0), PyTorch (BSD-style), Segment Anything (Apache 2.0). Downstream users of the training code that links Ultralytics must comply with AGPL-3.0.
 
 ## Acknowledgements
 
-ECUSTFD is the work of Yanchao Liang and Jianhua Li [1]; its images remain the property of the original authors. We use Meta's Segment Anything Model [4], Ultralytics YOLOv8 [6] and YOLO26 [7], and torchvision's Faster R-CNN [2] with a MobileNetV3 [19] backbone. The geometric volume models, coin calibration, and energy factors are re-implemented from the original MATLAB/C++ release.
+ECUSTFD is the work of Yanchao Liang and Jianhua Li [1]; its images remain the property of the original authors. We use Meta's Segment Anything Model [8], Ultralytics YOLOv8 [5] and YOLO26 [6], and torchvision's Faster R-CNN [2] with a MobileNetV3 [20] backbone. The geometric volume models, coin calibration, and energy factors are re-implemented from the original MATLAB/C++ release.
 
 ## References
 
@@ -268,11 +272,11 @@ ECUSTFD is the work of Yanchao Liang and Jianhua Li [1]; its images remain the p
 [1] Y. Liang and J. Li, "Computer vision-based food calorie estimation: dataset, method, and experiment," arXiv preprint arXiv:1705.07632, 2017.
 [2] S. Ren, K. He, R. Girshick, and J. Sun, "Faster R-CNN: Towards real-time object detection with region proposal networks," in *Adv. Neural Inf. Process. Syst. (NIPS)*, 2015.
 [3] C. Rother, V. Kolmogorov, and A. Blake, "'GrabCut': Interactive foreground extraction using iterated graph cuts," *ACM Trans. Graphics*, vol. 23, no. 3, pp. 309–314, 2004.
-[4] A. Kirillov, E. Mintun, N. Ravi, H. Mao, C. Rolland, L. Gustafson, T. Xiao, S. Whitehead, A. C. Berg, W.-Y. Lo, P. Dollár, and R. Girshick, "Segment Anything," arXiv preprint arXiv:2304.02643, 2023.
-[5] J. Redmon, S. Divvala, R. Girshick, and A. Farhadi, "You Only Look Once: Unified, real-time object detection," in *Proc. IEEE CVPR*, 2016.
-[6] G. Jocher, A. Chaurasia, and J. Qiu, "Ultralytics YOLOv8," Ultralytics, 2023. Software, ver. 8.4.87.
-[7] G. Jocher, J. Qiu, M. Liu, S. Lyu, F. C. Akyon, and M. E. Kalfaoglu, "Ultralytics YOLO26: Unified real-time end-to-end vision models," arXiv preprint arXiv:2606.03748, 2026.
-[8] R. Sapkota and M. Karkee, "Ultralytics YOLO evolution: An overview of YOLO26, YOLO11, YOLOv8, and YOLOv5 object detectors for computer vision and pattern recognition," arXiv preprint arXiv:2510.09653, 2025.
+[4] J. Redmon, S. Divvala, R. Girshick, and A. Farhadi, "You Only Look Once: Unified, real-time object detection," in *Proc. IEEE CVPR*, 2016.
+[5] G. Jocher, A. Chaurasia, and J. Qiu, "Ultralytics YOLOv8," Ultralytics, 2023. Software, ver. 8.4.87.
+[6] G. Jocher, J. Qiu, M. Liu, S. Lyu, F. C. Akyon, and M. E. Kalfaoglu, "Ultralytics YOLO26: Unified real-time end-to-end vision models," arXiv preprint arXiv:2606.03748, 2026.
+[7] R. Sapkota and M. Karkee, "Ultralytics YOLO evolution: An overview of YOLO26, YOLO11, YOLOv8, and YOLOv5 object detectors for computer vision and pattern recognition," arXiv preprint arXiv:2510.09653, 2025.
+[8] A. Kirillov, E. Mintun, N. Ravi, H. Mao, C. Rolland, L. Gustafson, T. Xiao, S. Whitehead, A. C. Berg, W.-Y. Lo, P. Dollár, and R. Girshick, "Segment Anything," arXiv preprint arXiv:2304.02643, 2023.
 [9] A. Myers, N. Johnston, V. Rathod, A. Korattikara, A. Gorban, N. Silberman, S. Guadarrama, G. Papandreou, J. Huang, and K. Murphy, "Im2Calories: Towards an automated mobile vision food diary," in *Proc. IEEE ICCV*, 2015.
 [10] P. Pouladzadeh, P. Kuhad, S. V. B. Peddi, A. Yassine, and S. Shirmohammadi, "Mobile cloud based food calorie measurement," in *Proc. IEEE ICMEW*, 2014.
 [11] J. He, Z. Shao, J. Wright, D. Kerr, C. Boushey, and F. Zhu, "Multi-task image-based dietary assessment for food recognition and portion size estimation," in *Proc. IEEE MIPR*, 2020.
@@ -283,5 +287,5 @@ ECUSTFD is the work of Yanchao Liang and Jianhua Li [1]; its images remain the p
 [16] A. AlMughrabi, U. Haroon, R. Marques, and P. Radeva, "VolETA: One- and few-shot food volume estimation," arXiv preprint arXiv:2407.01717, 2024.
 [17] A. AlMughrabi, U. Haroon, R. Marques, and P. Radeva, "VolTex: Food volume estimation using text-guided segmentation and neural surface reconstruction," in *Proc. IEEE/CVF CVPRW*, 2025.
 [18] K. He, G. Gkioxari, P. Dollár, and R. Girshick, "Mask R-CNN," in *Proc. IEEE ICCV*, 2017.
-[19] A. Howard, M. Sandler, G. Chu, L.-C. Chen, B. Chen, M. Tan, W. Wang, Y. Zhu, R. Pang, V. Vasudevan, Q. V. Le, and H. Adam, "Searching for MobileNetV3," in *Proc. IEEE/CVF ICCV*, 2019.
-[20] F. Mumuni and A. Mumuni, "Segment Anything Model for automated image data annotation: empirical studies using text prompts from Grounding DINO," arXiv preprint arXiv:2406.19057, 2024.
+[19] F. Mumuni and A. Mumuni, "Segment Anything Model for automated image data annotation: empirical studies using text prompts from Grounding DINO," arXiv preprint arXiv:2406.19057, 2024.
+[20] A. Howard, M. Sandler, G. Chu, L.-C. Chen, B. Chen, M. Tan, W. Wang, Y. Zhu, R. Pang, V. Vasudevan, Q. V. Le, and H. Adam, "Searching for MobileNetV3," in *Proc. IEEE/CVF ICCV*, 2019.
